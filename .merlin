@@ -1,0 +1,11 @@
+S _build/lib
+S _build/lib/electron
+S _build/lib/electron/main
+S _build/lib/electron/renderer
+
+B _build/lib
+B _build/lib/electron
+B _build/lib/electron/main
+B _build/lib/electron/renderer
+
+PKG js_of_ocaml js_of_ocaml.ppx
