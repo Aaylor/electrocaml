@@ -28,6 +28,15 @@ type bounce =
   | Critical
   | Informational
 
+type task = {
+  program : string;
+  arguments : string;
+  title : string;
+  description : string;
+  iconPath : string;
+  iconIndex : int;
+}
+
 type app_command_line =
   < append_switch : string -> string option -> unit;
     append_argument : string -> unit; >
@@ -43,7 +52,6 @@ type app_dock =
     is_visible : unit -> bool;
     set_menu : unit; (* TODO *)
     set_icon : unit; (* TODO *) >
-
 
 type app =
   < on_accessibility_support_changed : (event -> bool Js.t -> unit) -> unit;
@@ -87,7 +95,7 @@ type app =
       string -> string option -> string list option -> bool;
     is_default_protocol_client :
       string -> string option -> string list option -> bool;
-    set_user_tasks : unit;         (* TODO *)
+    set_user_tasks : task list -> bool;
     get_jump_list_settings : unit; (* TODO *)
     set_jump_list : unit;          (* TODO *)
     make_single_instance : (Js.string_array -> Js.js_string) -> unit;

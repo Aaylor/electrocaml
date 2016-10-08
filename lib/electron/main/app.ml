@@ -54,6 +54,25 @@ let string_of_bounce = function
   | Critical -> "critical"
   | Informational -> "informational"
 
+type task = {
+  program : string;
+  arguments : string;
+  title : string;
+  description : string;
+  iconPath : string;
+  iconIndex : int;
+}
+
+let task_param { program; arguments; title; description; iconPath; iconIndex } =
+  let mk_string s = Js.Unsafe.inject (Js.string s) in
+  Js.Unsafe.obj
+    [| "program", mk_string program;
+       "arguments", mk_string arguments;
+       "title", mk_string title;
+       "description", mk_string description;
+       "iconPath", mk_string iconPath;
+       "iconIndex", Js.Unsafe.inject iconIndex; |]
+
 type app_command_line =
   < append_switch : string -> string option -> unit;
     append_argument : string -> unit; >
@@ -112,7 +131,7 @@ type app =
       string -> string option -> string list option -> bool;
     is_default_protocol_client :
       string -> string option -> string list option -> bool;
-    set_user_tasks : unit;         (* TODO *)
+    set_user_tasks : task list -> bool;
     get_jump_list_settings : unit; (* TODO *)
     set_jump_list : unit;          (* TODO *)
     make_single_instance : (Js.string_array -> Js.js_string) -> unit;
@@ -289,7 +308,11 @@ let app : app = object(self)
   method is_default_protocol_client s so slo =
     self#default_protocol_client "isDefaultProtocolClient" s so slo
 
-  method set_user_tasks = () (* TODO *)
+  method set_user_tasks tasks =
+    let tasks = List.map task_param tasks in
+    self#call "setUserTasks"
+      [| Js.Unsafe.inject (Js.array (Array.of_list tasks)) |]
+
   method get_jump_list_settings = () (* TODO *)
   method set_jump_list = () (* TODO *)
 
