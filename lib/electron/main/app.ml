@@ -2,6 +2,8 @@
 open Util
 
 let app_module = electron##.app
+let command_line_module = app_module##.commandLine
+let dock_module = app_module##.dock
 
 type event (* TODO *)
 
@@ -53,8 +55,8 @@ let string_of_bounce = function
   | Informational -> "informational"
 
 type app_command_line =
-  < append_switch : unit;
-    append_argument : unit; >
+  < append_switch : string -> string option -> unit;
+    append_argument : string -> unit; >
 
 type app_dock =
   < bounce : bounce option -> int;
@@ -133,17 +135,18 @@ type app =
 
 let app : app = object(self)
 
+  method private call_with_module :
+    type ret. 'a -> string -> Js.Unsafe.any array -> ret =
+    fun module_ fun_name parameters ->
+      Js.Unsafe.meth_call module_ fun_name parameters
+
   method private call : type ret. string -> Js.Unsafe.any array -> ret =
-    fun fun_name parameters ->
-      Js.Unsafe.meth_call app_module fun_name parameters
+      self#call_with_module app_module
 
   method private on_procedure event cback =
     self#call "on"
       [| Js.Unsafe.inject event;
          Js.Unsafe.(inject (meth_callback cback)) |]
-
-  method private call_str_param fname str =
-    self#call fname [| Js.Unsafe.inject (Js.string str) |]
 
   method on_accessibility_support_changed cback =
     self#call "on"
@@ -260,7 +263,7 @@ let app : app = object(self)
     Data_structures.Locales.locales_of_string result
 
   method add_recent_document path =
-    self#call_str_param "addRecentDocument" path
+    self#call "addRecentDocument" [| Js.Unsafe.inject (Js.string path) |]
 
   method clear_recent_documents () =
     self#call "clearRecentDocuments" no_param
@@ -312,7 +315,7 @@ let app : app = object(self)
     Js.to_string (self#call "getCurrentActivityType" no_param)
 
   method set_app_user_model_id id =
-    self#call_str_param "setAppUserModelId" id
+    self#call "setAppUserModelId" [| Js.Unsafe.inject (Js.string id) |]
 
   method import_certificate = () (* TODO *)
 
@@ -335,8 +338,19 @@ let app : app = object(self)
     Js.to_bool (self#call "isAccessibilitySupportEnabled" no_param)
 
   method command_line = object
-    method append_switch = () (* TODO *)
-    method append_argument = () (* TODO *)
+    method append_switch switch value =
+      let value = match value with
+        | None -> no_param
+        | Some value -> [| Js.Unsafe.inject (Js.string value) |]
+      in
+      let parameters =
+        Array.append [| Js.Unsafe.inject (Js.string switch) |] value
+      in
+      self#call_with_module command_line_module "appendSwitch" parameters
+
+    method append_argument value =
+      self#call_with_module command_line_module
+        "appendArgument" [| Js.Unsafe.inject (Js.string value) |]
   end
 
   method dock = object
@@ -346,28 +360,30 @@ let app : app = object(self)
         | Some bounce ->
           [| Js.Unsafe.inject (Js.string (string_of_bounce bounce)) |]
       in
-      self#call "bouce" param
+      self#call_with_module dock_module "bouce" param
 
     method cancel_bounce id =
-      self#call "cancelBounce" [| Js.Unsafe.inject id |]
+      self#call_with_module dock_module "cancelBounce" [| Js.Unsafe.inject id |]
 
     method download_finished path =
-      self#call_str_param "downloadFinished" path
+      self#call_with_module dock_module "downloadFinished"
+        [| Js.Unsafe.inject (Js.string path) |]
 
     method set_badge txt =
-      self#call_str_param "setBadge" txt
+      self#call_with_module dock_module "setBadge"
+        [| Js.Unsafe.inject (Js.string txt) |]
 
     method get_badge () =
-      Js.to_string (self#call "getBadge" no_param)
+      Js.to_string (self#call_with_module dock_module "getBadge" no_param)
 
     method hide () =
-      self#call "hide" no_param
+      self#call_with_module dock_module "hide" no_param
 
     method show () =
-      self#call "show" no_param
+      self#call_with_module dock_module "show" no_param
 
     method is_visible () =
-      Js.to_bool (self#call "isVisible" no_param)
+      Js.to_bool (self#call_with_module dock_module "isVisible" no_param)
 
     method set_menu = () (* TODO *)
     method set_icon = () (* TODO *)

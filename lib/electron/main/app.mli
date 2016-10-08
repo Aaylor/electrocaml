@@ -29,8 +29,8 @@ type bounce =
   | Informational
 
 type app_command_line =
-  < append_switch : unit;
-    append_argument : unit; >
+  < append_switch : string -> string option -> unit;
+    append_argument : string -> unit; >
 
 type app_dock =
   < bounce : bounce option -> int;
@@ -106,4 +106,5 @@ type app =
     is_accessibility_support_enabled : unit -> bool;
     command_line : app_command_line;
     dock : app_dock; >
+
 val app : app
