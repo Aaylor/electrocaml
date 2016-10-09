@@ -128,7 +128,7 @@ class type app = object
   method get_version : unit -> string
   method get_name : unit -> string
   method set_name : string -> unit
-  method get_locale : unit -> Data_structures.Locales.t
+  method get_locale : unit -> Locales.t
   method add_recent_document : string -> unit
   method clear_recent_documents : unit -> unit
   method set_as_default_protocol_client :
@@ -286,7 +286,7 @@ let app : app = object(self)
 
   method get_locale () =
     let result = Js.to_string (self#call "getLocale" no_param) in
-    Data_structures.Locales.locales_of_string result
+    Locales.locales_of_string result
 
   method add_recent_document path =
     self#call "addRecentDocument" [| Js.Unsafe.inject (Js.string path) |]
