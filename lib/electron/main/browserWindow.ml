@@ -31,11 +31,18 @@ let string_of_title_bar_style = function
   | Hidden -> "hidden"
   | Hidden_inset -> "hidden-inset"
 
+class type browser_window = object
+  method instance : browser_instance Js.t
+  method id : int
+  method load_url : string -> unit
+  method get_parent_window : unit -> browser_window
+end
+
 type web_preferences_t = {
   dev_tools : bool option;
   node_integration : bool option;
   preload : string option;
-  session : unit option;               (* TODO: Session object type *)
+  session : Session.session option;
   partition : string option;
   zoom_factor : float option;
   javascript : bool option;
@@ -82,11 +89,12 @@ let obj_of_web_pref wp =
   let push_bool (key, elt) acc = push (key, Js.bool, elt) acc in
   let push_float (key, elt) acc = push (key, Js.float, elt) acc in
   let push_int (key, elt) acc = push (key, (fun x -> x), elt) acc in
+  let push_s (key, elt) acc = push (key, (fun s -> s#instance), elt) acc in
   let obj =
     push_bool ("devTools", wp.dev_tools) @@
     push_bool ("nodeIntegration", wp.node_integration) @@
     push_string ("preload", wp.preload) @@
-    (* TODO: session *)
+    push_s ("session", wp.session) @@
     push_string ("partition", wp.partition) @@
     push_float ("zoomFactor", wp.zoom_factor) @@
     push_bool ("javascript", wp.javascript) @@
@@ -154,12 +162,6 @@ type browser_window_option = {
   thick_frame : bool option;
   web_preferences : web_preferences_t option;
 }
-
-and browser_window =
-  < instance : browser_instance Js.t;
-    id : int;
-    load_url : string -> unit;
-    get_parent_window : unit -> browser_window >
 
 let default_browser_windows_option =
   { width = None; height = None; x_y = None; use_content_size = None;
@@ -240,7 +242,7 @@ let obj_of_browser_windows_opt bwo =
   in
   Js.Unsafe.obj (Array.of_list obj)
 
-class browser_window_obj instance = object
+class browser_window_obj instance : browser_window = object
 
   method id : int = instance##.id
 
