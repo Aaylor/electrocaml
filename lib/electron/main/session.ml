@@ -28,7 +28,7 @@ class session_obj instance : session = object(self)
 
 end
 
-let default_session =
+let default_session () =
   new session_obj session_module##.defaultSession
 
 let from_partition partition ?cache =

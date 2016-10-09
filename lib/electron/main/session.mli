@@ -9,6 +9,6 @@ class type session = object
   method get_cache_size : (int -> unit) -> unit
 end
 
-val default_session : session
+val default_session : unit -> session
 
 val from_partition : string -> ?cache:bool -> session
