@@ -1,7 +1,7 @@
-S _build/lib
-S _build/lib/electron
-S _build/lib/electron/main
-S _build/lib/electron/renderer
+S lib
+S lib/electron
+S lib/electron/main
+S lib/electron/renderer
 
 B _build/lib
 B _build/lib/electron
