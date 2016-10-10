@@ -1,5 +1,7 @@
 
-val app_module : 'a
+val app_module : Util.instance
+val command_line_module : Util.instance
+val dock_module : Util.instance
 
 type event
 
@@ -104,7 +106,7 @@ class type app = object
   method set_user_tasks : task list -> bool
   method get_jump_list_settings : unit (* TODO *)
   method set_jump_list : unit          (* TODO *)
-  method make_single_instance : (Js.string_array -> Js.js_string) -> unit
+  method make_single_instance : (Js.string_array -> Js.js_string -> unit) -> unit
   method release_single_instance : unit -> unit
   method set_user_activity :
     string -> (string * Js.Unsafe.any) array -> string option -> unit

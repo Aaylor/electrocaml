@@ -9,9 +9,10 @@ type event (* TODO *)
 
 type certificate (* TODO *)
 
-type 'a relaunch_parameter =
-  { args : 'a array option;
-    execPath : string option; }
+type 'a relaunch_parameter = {
+  args : 'a array option;
+  execPath : string option;
+}
 
 type path_parameter =
   | Home
@@ -28,23 +29,20 @@ type path_parameter =
   | Videos
   | PepperFlashSystemPlugin
 
-let js_string_of_path_parameter pp =
-  let string_of_path_parameter = function
-    | Home -> "home"
-    | AppData -> "appData"
-    | UserData -> "userData"
-    | Temp -> "temp"
-    | Exe -> "exe"
-    | Module -> "module"
-    | Desktop -> "desktop"
-    | Documents -> "documents"
-    | Downloads -> "downloads"
-    | Music -> "music"
-    | Pictures -> "pictures"
-    | Videos -> "videos"
-    | PepperFlashSystemPlugin -> "pepperFlashSystemPlugin"
-  in
-  Js.string (string_of_path_parameter pp)
+let string_of_path_parameter = function
+  | Home -> "home"
+  | AppData -> "appData"
+  | UserData -> "userData"
+  | Temp -> "temp"
+  | Exe -> "exe"
+  | Module -> "module"
+  | Desktop -> "desktop"
+  | Documents -> "documents"
+  | Downloads -> "downloads"
+  | Music -> "music"
+  | Pictures -> "pictures"
+  | Videos -> "videos"
+  | PepperFlashSystemPlugin -> "pepperFlashSystemPlugin"
 
 type bounce =
   | Critical
@@ -140,7 +138,7 @@ class type app = object
   method set_user_tasks : task list -> bool
   method get_jump_list_settings : unit (* TODO *)
   method set_jump_list : unit          (* TODO *)
-  method make_single_instance : (Js.string_array -> Js.js_string) -> unit
+  method make_single_instance : (Js.string_array -> Js.js_string -> unit) -> unit
   method release_single_instance : unit -> unit
   method set_user_activity :
     string -> (string * Js.Unsafe.any) array -> string option -> unit
@@ -159,264 +157,233 @@ class type app = object
 end
 
 
-let app : app = object(self)
+let app : app =
+  let module M : METHODS = Methods(struct let i = app_module end) in
+  object(self)
 
-  method private call_with_module :
-    type ret. 'a -> string -> Js.Unsafe.any array -> ret =
-    fun module_ fun_name parameters ->
-      Js.Unsafe.meth_call module_ fun_name parameters
+    method private on_event : type a b. string -> (a -> b) -> unit =
+      fun event callback ->
+        M.call "on" [| string_param event; callback_param callback |]
 
-  method private call : type ret. string -> Js.Unsafe.any array -> ret =
-      self#call_with_module app_module
+    method on_accessibility_support_changed callback =
+      self#on_event "accessibility-support-changes" callback
 
-  method private on_procedure event cback =
-    self#call "on"
-      [| Js.Unsafe.inject event;
-         Js.Unsafe.(inject (meth_callback cback)) |]
+    (* method on_activate cback = assert false *)
 
-  method on_accessibility_support_changed cback =
-    self#call "on"
-      [| Js.Unsafe.inject "accessibility-support-changed";
-         Js.Unsafe.(inject (meth_callback cback)) |]
+    (* method on_before_quit cback = assert false *)
 
-  (* method on_activate cback = assert false *)
+    (* method on_browser_window_blur cback = assert false *)
 
-  (* method on_before_quit cback = assert false *)
+    (* method on_browser_window_created cback = assert false *)
 
-  (* method on_browser_window_blur cback = assert false *)
+    (* method on_browser_window_focus cback = assert false *)
 
-  (* method on_browser_window_created cback = assert false *)
+    (* method on_certificate_error cback = assert false *)
 
-  (* method on_browser_window_focus cback = assert false *)
+    (* method on_continue_activity cback = assert false *)
 
-  (* method on_certificate_error cback = assert false *)
+    (* method on_gpu_process_crashed cback = assert false *)
 
-  (* method on_continue_activity cback = assert false *)
+    (* method on_login cback = assert false *)
 
-  (* method on_gpu_process_crashed cback = assert false *)
+    (* method on_open_file cback = assert false *)
 
-  (* method on_login cback = assert false *)
+    (* method on_open_url cback = assert false *)
 
-  (* method on_open_file cback = assert false *)
+    method on_quit callback =
+      self#on_event "quit" callback
 
-  (* method on_open_url cback = assert false *)
+    method on_ready callback =
+      self#on_event "ready" callback
 
-  method on_quit cback =
-    self#call "on"
-      [| Js.Unsafe.inject "quit";
-         Js.Unsafe.(inject (meth_callback cback)) |]
+    (* method on_select_client_certificate cback = assert false *)
 
-  method on_ready cback =
-    self#on_procedure "ready" cback
+    (* method on_web_contents_created cback = assert false *)
 
-  (* method on_select_client_certificate cback = assert false *)
+    method on_will_finish_launching callback =
+      self#on_event "will-finish-launching" callback
 
-  (* method on_web_contents_created cback = assert false *)
+    method on_will_quit callback =
+      self#on_event "will-quit" callback
 
-  method on_will_finish_launching cback =
-    self#on_procedure "will-finish-launching" cback
+    method on_window_all_closed callback =
+      self#on_event "window-all-closed" callback
 
-  method on_will_quit cback =
-    self#call "on"
-      [| Js.Unsafe.inject "will-quit";
-         Js.Unsafe.(inject (meth_callback cback)) |]
+    method quit () =
+      M.unit_unit "quit"
 
-  method on_window_all_closed cback =
-    self#on_procedure "window-all-closed" cback
+    method exit return_code =
+      M.call "exit" (optional_param return_code int_param)
 
-  method quit () =
-    self#call "quit" no_param
-
-  method exit return_code =
-    let return_code = match return_code with
-      | None -> no_param
-      | Some r -> [| Js.Unsafe.inject r |]
-    in
-    self#call "exit" return_code
-
-  method relaunch : type a. a relaunch_parameter -> unit = fun opt ->
-    let parameter =
-      let push acc (string, elt) = match elt with
-        | None -> acc
-        | Some elt -> (string, Js.Unsafe.inject elt) :: acc
+    method relaunch : type a. a relaunch_parameter -> unit = fun opt ->
+      let param =
+        let push (string, elt) t acc = match elt with
+          | None -> acc
+          | Some elt -> (string, Js.Unsafe.inject (t elt)) :: acc
+        in
+        let params =
+          push ("execPath", opt.execPath) string_param @@
+          push ("args", opt.args) Js.array []
+        in
+        match params with
+        | [] -> no_param
+        | xs -> [| Js.Unsafe.inject (Js.Unsafe.obj (Array.of_list params)) |]
       in
-      let parameters =
-        push
-          (push [] ("args", opt.args))
-          ("execPath", opt.execPath)
-      in
-      match parameters with
-      | [] -> no_param
-      | xs -> [| Js.Unsafe.inject (Js.Unsafe.obj (Array.of_list parameters)) |]
-    in
-    self#call "relaunch" parameter
+      M.call "relaunch" param
 
-  method is_ready () =
-    Js.to_bool (self#call "isReady" no_param)
+    method is_ready () =
+      M.unit_bool "isReady"
 
-  method focus () =
-    self#call "focus" no_param
-
-  method hide () =
-    self#call "hide" no_param
-
-  method show () =
-    self#call "show" no_param
-
-  method get_app_path () =
-    Js.to_string (self#call "getAppPath" no_param)
-
-  method get_path pp =
-    let param = [| Js.Unsafe.inject (js_string_of_path_parameter pp) |] in
-    Js.to_string (self#call "getPath" param)
-
-  method set_path pp path =
-    self#call "setPath"
-      [| Js.Unsafe.inject (js_string_of_path_parameter pp);
-         Js.Unsafe.inject (Js.string path) |]
-
-  method get_version () =
-    Js.to_string (self#call "getVersion" no_param)
-
-  method get_name () =
-    Js.to_string (self#call "getName" no_param)
-
-  method set_name name =
-    self#call "setName" [| Js.Unsafe.inject (Js.string name) |]
-
-  method get_locale () =
-    let result = Js.to_string (self#call "getLocale" no_param) in
-    Locales.locales_of_string result
-
-  method add_recent_document path =
-    self#call "addRecentDocument" [| Js.Unsafe.inject (Js.string path) |]
-
-  method clear_recent_documents () =
-    self#call "clearRecentDocuments" no_param
-
-  method private default_protocol_client fname protocol opath oargs =
-    let args = match oargs with
-      | None -> no_param
-      | Some args -> [| Js.Unsafe.inject (Js.array (Array.of_list args)) |]
-    in
-    let path = match opath with
-      | None -> no_param
-      | Some path -> [| Js.Unsafe.inject (Js.string path) |]
-    in
-    let protocol = [| Js.Unsafe.inject (Js.string protocol) |] in
-    Js.to_bool (self#call fname Array.(concat [protocol; path; args]))
-
-  method set_as_default_protocol_client s so slo =
-    self#default_protocol_client "setAsDefaultProtocolClient" s so slo
-
-  method remove_as_default_protocol_client s so slo =
-    self#default_protocol_client "removeAsDefaultProtocolClient" s so slo
-
-  method is_default_protocol_client s so slo =
-    self#default_protocol_client "isDefaultProtocolClient" s so slo
-
-  method set_user_tasks tasks =
-    let tasks = List.map task_param tasks in
-    self#call "setUserTasks"
-      [| Js.Unsafe.inject (Js.array (Array.of_list tasks)) |]
-
-  method get_jump_list_settings = () (* TODO *)
-  method set_jump_list = () (* TODO *)
-
-  method make_single_instance callback =
-    self#call "makeSingleInstance" [| Js.Unsafe.inject callback |]
-
-  method release_single_instance () =
-    self#call "releaseSingleInstance" no_param
-
-  method set_user_activity typ user_info webpage =
-    let webpage = match webpage with
-      | None -> no_param
-      | Some wp -> [| Js.Unsafe.inject (Js.string wp) |]
-    in
-    self#call "setUserActivity"
-      Array.(concat [
-        [| Js.Unsafe.inject (Js.string typ);
-           Js.Unsafe.inject (Js.Unsafe.obj user_info) |];
-        webpage
-      ])
-
-  method get_current_activity_type () =
-    Js.to_string (self#call "getCurrentActivityType" no_param)
-
-  method set_app_user_model_id id =
-    self#call "setAppUserModelId" [| Js.Unsafe.inject (Js.string id) |]
-
-  method import_certificate = () (* TODO *)
-
-  method disable_hardware_acceleration () =
-    self#call "disableHardwareAcceleration" no_param
-
-  method set_badge_count count =
-    Js.to_bool (self#call "setBadgeCount" [| Js.Unsafe.inject count |])
-
-  method get_badge_count () =
-    self#call "getBadgeCount" no_param
-
-  method is_unity_running () =
-    Js.to_bool (self#call "isUnityRunning" no_param)
-
-  method get_login_item_settings = () (* TODO *)
-  method set_login_item_settings = () (* TODO *)
-
-  method is_accessibility_support_enabled () =
-    Js.to_bool (self#call "isAccessibilitySupportEnabled" no_param)
-
-  method command_line = object
-    method append_switch switch value =
-      let value = match value with
-        | None -> no_param
-        | Some value -> [| Js.Unsafe.inject (Js.string value) |]
-      in
-      let parameters =
-        Array.append [| Js.Unsafe.inject (Js.string switch) |] value
-      in
-      self#call_with_module command_line_module "appendSwitch" parameters
-
-    method append_argument value =
-      self#call_with_module command_line_module
-        "appendArgument" [| Js.Unsafe.inject (Js.string value) |]
-  end
-
-  method dock = object
-    method bounce opt =
-      let param = match opt with
-        | None -> no_param
-        | Some bounce ->
-          [| Js.Unsafe.inject (Js.string (string_of_bounce bounce)) |]
-      in
-      self#call_with_module dock_module "bouce" param
-
-    method cancel_bounce id =
-      self#call_with_module dock_module "cancelBounce" [| Js.Unsafe.inject id |]
-
-    method download_finished path =
-      self#call_with_module dock_module "downloadFinished"
-        [| Js.Unsafe.inject (Js.string path) |]
-
-    method set_badge txt =
-      self#call_with_module dock_module "setBadge"
-        [| Js.Unsafe.inject (Js.string txt) |]
-
-    method get_badge () =
-      Js.to_string (self#call_with_module dock_module "getBadge" no_param)
+    method focus () =
+      M.unit_unit "focus"
 
     method hide () =
-      self#call_with_module dock_module "hide" no_param
+      M.unit_unit "hide"
 
     method show () =
-      self#call_with_module dock_module "show" no_param
+      M.unit_unit "show"
 
-    method is_visible () =
-      Js.to_bool (self#call_with_module dock_module "isVisible" no_param)
+    method get_app_path () =
+      M.unit_string "getAppPath"
 
-    method set_menu = () (* TODO *)
-    method set_icon = () (* TODO *)
+    method get_path pp =
+      Js.to_string
+        (M.call "getPath" [| string_param (string_of_path_parameter pp) |])
+
+    method set_path pp path =
+      M.call "setPath"
+        [| string_param (string_of_path_parameter pp);
+           string_param path |]
+
+    method get_version () =
+      M.unit_string "getVersion"
+
+    method get_name () =
+      M.unit_string "getName"
+
+    method set_name name =
+      M.string_unit "setName" name
+
+    method get_locale () =
+      let res = M.unit_any "getLocale" in
+      Locales.locales_of_string (Js.to_string res)
+
+    method add_recent_document path =
+      M.string_unit "addRecentDocument" path
+
+    method clear_recent_documents () =
+      M.unit_unit "clearRecentDocuments"
+
+    method private default_protocol_client fname protocol opath oargs =
+      let args = optional_param oargs list_param in
+      let path = optional_param opath string_param in
+      let protocol = [| string_param protocol |] in
+      Js.to_bool (M.call fname Array.(concat [protocol; path; args]))
+
+    method set_as_default_protocol_client s so slo =
+      self#default_protocol_client "setAsDefaultProtocolClient" s so slo
+
+    method remove_as_default_protocol_client s so slo =
+      self#default_protocol_client "removeAsDefaultProtocolClient" s so slo
+
+    method is_default_protocol_client s so slo =
+      self#default_protocol_client "isDefaultProtocolClient" s so slo
+
+    method set_user_tasks tasks =
+      let tasks = List.map task_param tasks in
+      M.call "setUserTasks" [| list_param tasks |]
+
+    method get_jump_list_settings = () (* TODO *)
+
+    method set_jump_list = () (* TODO *)
+
+    method make_single_instance callback =
+      M.callback_unit "makeSingleInstance" callback
+
+    method release_single_instance () =
+      M.unit_unit "releaseSingleInstance"
+
+    method set_user_activity typ user_info webpage =
+      let parameters =
+        Array.append
+          [| string_param typ; obj_param user_info |]
+          (optional_param webpage string_param)
+      in
+      M.call "setUserActivity" parameters
+
+    method get_current_activity_type () =
+      M.unit_string "getCurrentActivityType"
+
+    method set_app_user_model_id id =
+      M.string_unit "setAppUserModelId" id
+
+    method import_certificate = () (* TODO *)
+
+    method disable_hardware_acceleration () =
+      M.unit_unit "disableHardwareAcceleration"
+
+    method set_badge_count count =
+      Js.to_bool (M.call "setBadgeCount" [| int_param count |])
+
+    method get_badge_count () =
+      M.unit_int "getBadgeCount"
+
+    method is_unity_running () =
+      M.unit_bool "isUnityRunning"
+
+    method get_login_item_settings = () (* TODO *)
+
+    method set_login_item_settings = () (* TODO *)
+
+    method is_accessibility_support_enabled () =
+      M.unit_bool "isAccessibilitySupportEnabled"
+
+    method command_line =
+      let module CL : METHODS = Methods(struct let i = command_line_module end) in
+      object
+        method append_switch switch value =
+          let parameters =
+            Array.append
+              [| string_param switch |]
+              (optional_param value string_param)
+          in
+          CL.call "appendSwitch" parameters
+
+        method append_argument value =
+          CL.string_unit "appendArguments" value
+      end
+
+    method dock =
+      let module Dock : METHODS = Methods(struct let i = dock_module end) in
+      object
+        method bounce opt =
+          let translater b = string_param (string_of_bounce b) in
+          Dock.call "bounce" (optional_param opt translater)
+
+        method cancel_bounce id =
+          Dock.int_unit "cancelBounce" id
+
+        method download_finished path =
+          Dock.string_unit "downloadFinished" path
+
+        method set_badge txt =
+          Dock.string_unit "setBadge" txt
+
+        method get_badge () =
+          Dock.unit_string "getBadge"
+
+        method hide () =
+          Dock.unit_unit "hide"
+
+        method show () =
+          Dock.unit_unit "show"
+
+        method is_visible () =
+          Dock.unit_bool "isVisible"
+
+        method set_menu = () (* TODO *)
+
+        method set_icon = () (* TODO *)
+      end
+
   end
-
-end

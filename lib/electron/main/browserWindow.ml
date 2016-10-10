@@ -3,6 +3,10 @@ open Util
 
 let bw_module = electron##._BrowserWindow
 
+
+
+(* TYPES *)
+
 type browser_instance
 
 type windows_t =
@@ -146,7 +150,7 @@ class type browser_window = object
   method is_kiosk : unit -> bool
   method get_native_window_handle : unit -> unit (* TODO *)
   method hook_window_message : int -> (unit -> unit) -> unit
-  method is_window_message_hooked : unit -> bool
+  method is_window_message_hooked : int -> bool
   method unhook_window_message : int -> unit
   method unhook_all_window_messages : unit -> unit
   method set_represented_filename : string -> unit
@@ -386,398 +390,384 @@ let obj_of_browser_windows_opt bwo =
   in
   Js.Unsafe.obj (Array.of_list obj)
 
-class browser_window_obj instance : browser_window = object(self)
-  method private call : type ret. string -> Js.Unsafe.any array -> ret =
-    Js.Unsafe.meth_call instance
 
-  method id : int = instance##.id
 
-  (* val web_contents = instance##.webContents (\* TODO *\) *)
+(* METHODS *)
 
-  method instance : browser_instance Js.t = Js.Unsafe.coerce instance
+let rec make_bw_obj instance : browser_window =
+  let module M = Methods(struct let i = instance end) in
+  object(self)
+    method id : int = (Js.Unsafe.coerce instance)##.id
 
-  (* Events *)
+    (* val web_contents = instance##.webContents (\* TODO *\) *)
 
-  (* Methods *)
+    method instance : browser_instance Js.t = Js.Unsafe.coerce instance
 
-  method destroy () =
-    self#call "destroy" no_param
+    (* Events *)
 
-  method close () =
-    self#call "close" no_param
+    (* Methods *)
 
-  method focus () =
-    self#call "focus" no_param
+    method destroy () =
+      M.unit_unit "destroy"
 
-  method blur () =
-    self#call "blur" no_param
+    method close () =
+      M.unit_unit "close"
 
-  method is_focused () =
-    Js.to_bool (self#call "isFocused" no_param)
+    method focus () =
+      M.unit_unit "focus"
 
-  method is_destroyed () =
-    Js.to_bool (self#call "isDestroyed" no_param)
+    method blur () =
+      M.unit_unit "blur"
 
-  method show () =
-    self#call "show" no_param
+    method is_focused () =
+      M.unit_bool "isFocused"
 
-  method show_inactive () =
-    self#call "showInactive" no_param
+    method is_destroyed () =
+      M.unit_bool "isDestroyed"
 
-  method hide () =
-    self#call "hide" no_param
+    method show () =
+      M.unit_unit "show"
 
-  method is_visible () =
-    Js.to_bool (self#call "isVisible" no_param)
+    method show_inactive () =
+      M.unit_unit "showInactive"
 
-  method is_modal () =
-    Js.to_bool (self#call "isModal" no_param)
+    method hide () =
+      M.unit_unit "hide"
 
-  method maximize () =
-    self#call "maximize" no_param
+    method is_visible () =
+      M.unit_bool "isVisible"
 
-  method unmaximize () =
-    self#call "unmaximize" no_param
+    method is_modal () =
+      M.unit_bool "isModal"
 
-  method is_maximized () =
-    Js.to_bool (self#call "isMaximized" no_param)
+    method maximize () =
+      M.unit_unit "maximize"
 
-  method minimize () =
-    self#call "minimize" no_param
+    method unmaximize () =
+      M.unit_unit "unmaximize"
 
-  method restore () =
-    self#call "restore" no_param
+    method is_maximized () =
+      M.unit_bool "isMaximized"
 
-  method is_minimized () =
-    Js.to_bool (self#call "isMinimized" no_param)
+    method minimize () =
+      M.unit_unit "minimize"
 
-  method set_full_screen flag =
-    self#call "setFullScreen" [| Js.Unsafe.inject (Js.bool flag) |]
+    method restore () =
+      M.unit_unit "restore"
 
-  method is_full_screen () =
-    Js.to_bool (self#call "isFullScreen" no_param)
+    method is_minimized () =
+      M.unit_bool "isMinimized"
 
-  method set_aspect_ratio aspect_ratio ?extra_size =
-    let extra_size = match extra_size with
-      | None -> no_param
-      | Some size -> [| Js.Unsafe.inject (obj_of_size size) |]
-    in
-    self#call "setAspectRatio"
-      (Array.append [| Js.Unsafe.inject (Js.float aspect_ratio) |] extra_size)
+    method set_full_screen flag =
+      M.bool_unit "setFullScreen" flag
 
-  method private generic_set_bounds fname options ?animate =
-    let animate = match animate with
-      | None -> no_param
-      | Some animate -> [| Js.Unsafe.inject (Js.bool animate) |]
-    in
-    self#call fname
-      (Array.append
-         [| Js.Unsafe.inject (obj_of_size_with_position options) |]
-         animate)
+    method is_full_screen () =
+      M.unit_bool "isFullScreen"
 
-  method private generic_get_bounds fname =
-    let bounds = self#call fname no_param in
-    let read_int field : int = Js.Unsafe.get bounds field in
-    { position =
-        { x = read_int "x";
-          y = read_int "y"; };
-      size =
-        { width = read_int "width";
-          height = read_int "height"; }; }
+    method set_aspect_ratio aspect_ratio ?extra_size =
+      let extra_size = match extra_size with
+        | None -> no_param
+        | Some size -> [| Js.Unsafe.inject (obj_of_size size) |]
+      in
+      M.call "setAspectRatio"
+        (Array.append [| Js.Unsafe.inject (Js.float aspect_ratio) |] extra_size)
 
-  method set_bounds options ?animate =
-    self#generic_set_bounds "setBounds" options animate
+    method private generic_set_bounds fname options ?animate =
+      let animate = optional_param animate bool_param in
+      M.call fname
+        (Array.append
+           [| Js.Unsafe.inject (obj_of_size_with_position options) |]
+           animate)
 
-  method get_bounds () =
-    self#generic_get_bounds "getBounds"
+    method private generic_get_bounds fname =
+      let bounds = M.call fname no_param in
+      let read_int field : int = Js.Unsafe.get bounds field in
+      { position =
+          { x = read_int "x";
+            y = read_int "y"; };
+        size =
+          { width = read_int "width";
+            height = read_int "height"; }; }
 
-  method set_content_bounds options ?animate =
-    self#generic_set_bounds "setContentBounds" options animate
+    method set_bounds options ?animate =
+      self#generic_set_bounds "setBounds" options animate
 
-  method get_content_bounds () =
-    self#generic_get_bounds "getContentBounds"
+    method get_bounds () =
+      self#generic_get_bounds "getBounds"
 
-  method private generic_set_size fname (size : size) ?animate =
-    let animate = match animate with
-      | None -> no_param
-      | Some animate -> [| Js.Unsafe.inject (Js.bool animate) |]
-    in
-    self#call fname
-      (Array.append
-         [| Js.Unsafe.inject size.width;
-            Js.Unsafe.inject size.height; |]
-         animate)
-
-  method private generic_get_size fname =
-    let size = self#call fname no_param in
-    let width : int = match Js.Optdef.to_option (Js.array_get size 0) with
-      | None -> assert false    (* Should not happen. *)
-      | Some width -> width
-    in
-    let height : int = match Js.Optdef.to_option (Js.array_get size 1) with
-      | None -> assert false    (* Should not happen. *)
-      | Some height -> height
-    in
-    { width; height }
-
-  method set_size size ?animate =
-    self#generic_set_size "setSize" size animate
-
-  method get_size () =
-    self#generic_get_size "getSize"
-
-  method set_content_size size ?animate =
-    self#generic_set_size "setContentSize" size animate
-
-  method get_content_size () =
-    self#generic_get_size "getContentSize"
-
-  method set_minimum_size size =
-    self#generic_set_size "setMinimumSize" size None
-
-  method get_minimum_size () =
-    self#generic_get_size "getMinimumSize"
-
-  method set_maximum_size size =
-    self#generic_set_size "setMaximumSize" size None
-
-  method get_maximum_size () =
-    self#generic_get_size "getMaximumSize"
-
-  method set_resizable resizable =
-    self#call "setResizable" [| Js.Unsafe.inject (Js.bool resizable) |]
-
-  method is_resizable () =
-    Js.to_bool (self#call "isResizable" no_param)
-
-  method set_movable movable =
-    self#call "setMovable" [| Js.Unsafe.inject (Js.bool movable) |]
-
-  method is_movable () =
-    Js.to_bool (self#call "isMovable" no_param)
-
-  method set_minimizable minimizable =
-    self#call "setMinimizable" [| Js.Unsafe.inject (Js.bool minimizable) |]
+    method set_content_bounds options ?animate =
+      self#generic_set_bounds "setContentBounds" options animate
 
-  method is_minimizable () =
-    Js.to_bool (self#call "isMinimizable" no_param)
+    method get_content_bounds () =
+      self#generic_get_bounds "getContentBounds"
 
-  method set_maximizable maximizable =
-    self#call "setMaximizable" [| Js.Unsafe.inject (Js.bool maximizable) |]
+    method private generic_set_size fname (size : size) ?animate =
+      let animate = optional_param animate bool_param in
+      M.call fname
+        (Array.append
+           [| int_param size.width; int_param size.height; |]
+           animate)
 
-  method is_maximizable () =
-    Js.to_bool (self#call "isMaximizable" no_param)
+    method private generic_get_size fname =
+      let size = M.call fname no_param in
+      let get where : int = match Js.Optdef.to_option (Js.array_get size 0) with
+        | None -> assert false
+        | Some i -> i
+      in
+      { width = get 0; height = get 1 }
 
-  method set_full_screenable fullscreenable =
-    self#call "setFullScreenable"
-      [| Js.Unsafe.inject (Js.bool fullscreenable) |]
+    method set_size size ?animate =
+      self#generic_set_size "setSize" size animate
 
-  method is_full_screenable () =
-    Js.to_bool (self#call "isFullScreenable" no_param)
+    method get_size () =
+      self#generic_get_size "getSize"
 
-  method set_closable closable =
-    self#call "setClosable" [| Js.Unsafe.inject (Js.bool closable) |]
+    method set_content_size size ?animate =
+      self#generic_set_size "setContentSize" size animate
 
-  method is_closable () =
-    Js.to_bool (self#call "isClosable" no_param)
+    method get_content_size () =
+      self#generic_get_size "getContentSize"
 
-  method set_always_on_top flag ?level =
-    let level = match level with
-      | None -> no_param
-      | Some level ->
-        [| Js.Unsafe.inject (Js.string (string_of_top_level level)) |]
-    in
-    self#call "setAlwaysOnTop"
-      (Array.append [| Js.Unsafe.inject (Js.bool flag) |] level)
+    method set_minimum_size size =
+      self#generic_set_size "setMinimumSize" size None
 
-  method is_always_on_top () =
-    Js.to_bool (self#call "isAlwaysOnTop" no_param)
+    method get_minimum_size () =
+      self#generic_get_size "getMinimumSize"
 
-  method center () =
-    self#call "center" no_param
+    method set_maximum_size size =
+      self#generic_set_size "setMaximumSize" size None
 
-  method set_position position ?animate =
-    let animate = match animate with
-      | None -> no_param
-      | Some animate -> [| Js.Unsafe.inject (Js.bool animate) |]
-    in
-    self#call "setPosition"
-      (Array.append
-         [| Js.Unsafe.inject position.x; Js.Unsafe.inject position.y |]
-         animate)
+    method get_maximum_size () =
+      self#generic_get_size "getMaximumSize"
 
-  method get_position () =
-    let position = self#call "getPosition" no_param in
-    let get i : int = match Js.Optdef.to_option (Js.array_get position i) with
-      | None -> assert false
-      | Some v -> v
-    in
-    { x = get 0; y = get 1 }
+    method set_resizable resizable =
+      M.bool_unit "setResizable" resizable
 
-  method set_title title =
-    self#call "setTitle" [| Js.Unsafe.inject (Js.string title) |]
+    method is_resizable () =
+      M.unit_bool "isResizable"
 
-  method get_title () =
-    Js.to_string (self#call "getTitle" no_param)
+    method set_movable movable =
+      M.bool_unit "setMovable" movable
 
-  method set_sheet_offset offset_y ?offset_x =
-    let offset_x = match offset_x with
-      | None -> no_param
-      | Some off -> [| Js.Unsafe.inject (Js.float off) |]
-    in
-    self#call "setSheetOffset"
-      (Array.append [| Js.Unsafe.inject (Js.float offset_y) |] offset_x)
+    method is_movable () =
+      M.unit_bool "isMovable"
 
-  method flash_frame flag =
-    self#call "flashFrame" [| Js.Unsafe.inject (Js.bool flag) |]
+    method set_minimizable minimizable =
+      M.bool_unit "setMinimizable" minimizable
 
-  method set_skip_taskbar skip =
-    self#call "setSkipTaskbar" [| Js.Unsafe.inject (Js.bool skip) |]
+    method is_minimizable () =
+      M.unit_bool "isMinimizable"
 
-  method set_kiosk flag =
-    self#call "setKiosk" [| Js.Unsafe.inject (Js.bool flag) |]
+    method set_maximizable maximizable =
+      M.bool_unit "setMaximizable" maximizable
 
-  method is_kiosk () =
-    Js.to_bool (self#call "isKiosk" no_param)
+    method is_maximizable () =
+      M.unit_bool "isMaximizable"
 
-  method get_native_window_handle () = ()
+    method set_full_screenable fullscreenable =
+      M.bool_unit "setFullScreenable" fullscreenable
 
-  method hook_window_message message cback =
-    self#call "hookWindowMessage"
-      [| Js.Unsafe.inject message;
-         Js.Unsafe.inject (Js.Unsafe.meth_callback cback) |]
+    method is_full_screenable () =
+      M.unit_bool "isFullScreenable"
 
-  method is_window_message_hooked message =
-    Js.to_bool
-      (self#call "isWindowMessageHooked" [| Js.Unsafe.inject message |])
+    method set_closable closable =
+      M.bool_unit "setClosable" closable
 
-  method unhook_window_message message =
-    self#call "unhookWindowMessage" [| Js.Unsafe.inject message |]
+    method is_closable () =
+      M.unit_bool "isClosable"
 
-  method unhook_all_window_messages () =
-    self#call "unhookAllWindowMessages" no_param
+    method set_always_on_top flag ?level =
+      let level =
+        optional_param level
+          (fun s -> string_param (string_of_top_level s))
+      in
+      M.call "setAlwaysOnTop"
+        (Array.append [| Js.Unsafe.inject (Js.bool flag) |] level)
 
-  method set_represented_filename filename =
-    self#call "setRepresentedFilename"
-      [| Js.Unsafe.inject (Js.string filename) |]
+    method is_always_on_top () =
+      M.unit_bool "isAlwaysOnTop"
 
-  method get_represented_filename () =
-    Js.to_string (self#call "getRepresentedFilename" no_param)
+    method center () =
+      M.unit_unit "center"
 
-  method set_document_edited edited =
-    self#call "setDocumentEdited" [| Js.Unsafe.inject (Js.bool edited) |]
+    method set_position position ?animate =
+      let animate = optional_param animate bool_param in
+      M.call "setPosition"
+        (Array.append
+           [| int_param position.x; int_param position.y |]
+           animate)
 
-  method is_document_edited () =
-    Js.to_bool (self#call "isDocumentEdited" no_param)
+    method get_position () =
+      let position = M.unit_any "getPosition" in
+      let get i : int = match Js.Optdef.to_option (Js.array_get position i) with
+        | None -> assert false
+        | Some v -> v
+      in
+      { x = get 0; y = get 1 }
 
-  method focus_on_web_view () =
-    self#call "focusOnWebView" no_param
+    method set_title title =
+      M.string_unit "setTitle" title
 
-  method blur_web_view () =
-    self#call "blurWebView" no_param
+    method get_title () =
+      M.unit_string "getTitle"
 
-  method capture_page ?rect cback =
-    let rect = match rect with
-      | None -> no_param
-      | Some rect -> [| Js.Unsafe.inject (obj_of_size_with_position rect) |]
-    in
-    self#call "capturePage"
-      (Array.append rect [| Js.Unsafe.inject (Js.Unsafe.meth_callback cback) |])
+    method set_sheet_offset offset_y ?offset_x =
+      let offset_x = optional_param offset_x float_param in
+      M.call "setSheetOffset"
+        (Array.append [| Js.Unsafe.inject (Js.float offset_y) |] offset_x)
 
-  method load_url path =
-    self#call "loadURL" [| Js.Unsafe.inject (Js.string path) |]
+    method flash_frame flag =
+      M.bool_unit "flashFrame" flag
 
-  method reload () =
-    self#call "reload" no_param
+    method set_skip_taskbar skip =
+      M.bool_unit "setSkipTaskbar" skip
 
-  method set_menu () (* menu *) = ()
+    method set_kiosk flag =
+      M.bool_unit "setKiosk" flag
 
-  method set_progress_bar () (* progress options *) = ()
+    method is_kiosk () =
+      M.unit_bool "isKiosk"
 
-  method set_overlay_icon () (* overlay description *) = ()
+    method get_native_window_handle () = ()
 
-  method set_has_shadow has_shadow =
-    self#call "setHasShadow" [| Js.Unsafe.inject (Js.bool has_shadow) |]
+    method hook_window_message message cback =
+      M.call "hookWindowMessage"
+        [| int_param message; callback_param cback |]
 
-  method has_shadow () =
-    Js.to_bool (self#call "hasShadow" no_param)
+    method is_window_message_hooked message =
+      Js.to_bool (M.call "isWindowMessageHooked" [| int_param message |])
 
-  method set_thumbar_buttons () (* buttons *) = ()
+    method unhook_window_message message =
+      M.int_unit "unhookWindowMessage" message
 
-  method set_thumbnail_clip region =
-    self#call "setThumbnailClip"
-      [| Js.Unsafe.inject (obj_of_size_with_position region) |]
+    method unhook_all_window_messages () =
+      M.unit_unit "unhookAllWindowMessages"
 
-  method set_thumbnail_tool_tip tool_tip =
-    self#call "setThumbnailToolTip" [| Js.Unsafe.inject (Js.string tool_tip) |]
+    method set_represented_filename filename =
+      M.string_unit "setRepresentedFilename" filename
 
-  method show_definition_for_selection () =
-    self#call "showDefinitionForSelection" no_param
+    method get_represented_filename () =
+      M.unit_string "getRepresentedFilename"
 
-  method set_icon () (* icon *) = ()
+    method set_document_edited edited =
+      M.bool_unit "setDocumentEdited" edited
 
-  method set_auto_hide_menu_bar hide =
-    self#call "setAutoHideMenuBar" [| Js.Unsafe.inject (Js.bool hide) |]
+    method is_document_edited () =
+      M.unit_bool "isDocumentEdited"
 
-  method is_menu_bar_auto_hide () =
-    Js.to_bool (self#call "isMenuBarAutoHide" no_param)
+    method focus_on_web_view () =
+      M.unit_unit "focusOnWebView"
 
-  method set_menu_bar_visibility visible =
-    self#call "setMenuBarVisibility" [| Js.Unsafe.inject (Js.bool visible) |]
+    method blur_web_view () =
+      M.unit_unit "blurWebView"
 
-  method is_menu_bar_visible () =
-    Js.to_bool (self#call "isMenuBarVisible" no_param)
+    method capture_page ?rect cback =
+      let rect =
+        optional_param rect
+          (fun s -> Js.Unsafe.inject (obj_of_size_with_position s))
+      in
+      M.call "capturePage" (Array.append rect [| callback_param cback |])
 
-  method set_visible_on_all_workspaces visible =
-    self#call "setVisibleOnAllWorkspaces"
-      [| Js.Unsafe.inject (Js.bool visible) |]
+    method load_url path =
+      M.string_unit "loadURL" path
 
-  method is_visible_on_all_workspaces () =
-    Js.to_bool (self#call "isVisibleOnAllWorkspaces" no_param)
+    method reload () =
+      M.unit_unit "reload"
 
-  method set_ignore_mouse_events ignore_ =
-    self#call "setIgnoreMouseEvents" [| Js.Unsafe.inject (Js.bool ignore_) |]
+    method set_menu () (* menu *) = ()
 
-  method set_content_protection enable =
-    self#call "setContentProtection" [| Js.Unsafe.inject (Js.bool enable) |]
+    method set_progress_bar () (* progress options *) = ()
 
-  method set_focusable focusable =
-    self#call "setFocusable" [| Js.Unsafe.inject (Js.bool focusable) |]
+    method set_overlay_icon () (* overlay description *) = ()
 
-  method set_parent_window parent =
-    self#call "setParentWindow" [| Js.Unsafe.inject parent#instance |]
+    method set_has_shadow has_shadow =
+      M.bool_unit "setHasShadow" has_shadow
 
-  method get_parent_window () =
-    let res = self#call "getParentWindow" no_param in
-    new browser_window_obj res
+    method has_shadow () =
+      M.unit_bool "hasShadow"
 
-  method get_child_windows () =
-    let res = self#call "getChildWindows" no_param in
-    let res_array = Js.to_array res in
-    List.map (fun i -> new browser_window_obj i) (Array.to_list res_array)
+    method set_thumbar_buttons () (* buttons *) = ()
 
-end
+    method set_thumbnail_clip region =
+      M.call "setThumbnailClip"
+        [| Js.Unsafe.inject (obj_of_size_with_position region) |]
+
+    method set_thumbnail_tool_tip tool_tip =
+      M.string_unit "setThumbnailToolTip" tool_tip
+
+    method show_definition_for_selection () =
+      M.unit_unit "showDefinitionForSelection"
+
+    method set_icon () (* icon *) = ()
+
+    method set_auto_hide_menu_bar hide =
+      M.bool_unit "setAutoHideMenuBar" hide
+
+    method is_menu_bar_auto_hide () =
+      M.unit_bool "isMenuBarAutoHide"
+
+    method set_menu_bar_visibility visible =
+      M.bool_unit "setMenuBarVisibility" visible
+
+    method is_menu_bar_visible () =
+      M.unit_bool "isMenuBarVisible"
+
+    method set_visible_on_all_workspaces visible =
+      M.bool_unit "setVisibleOnAllWorkspaces" visible
+
+    method is_visible_on_all_workspaces () =
+      M.unit_bool "isVisibleOnAllWorkspaces"
+
+    method set_ignore_mouse_events ignore_ =
+      M.bool_unit "setIgnoreMouseEvents" ignore_
+
+    method set_content_protection enable =
+      M.bool_unit "setContentProtection" enable
+
+    method set_focusable focusable =
+      M.bool_unit "setFocusable" focusable
+
+    method set_parent_window parent =
+      M.call "setParentWindow" [| Js.Unsafe.inject parent#instance |]
+
+    method get_parent_window () =
+      let res = M.unit_any "getParentWindow" in
+      make_bw_obj res
+
+    method get_child_windows () =
+      let res = M.unit_any "getChildWindows" in
+      let res_array = Js.to_array res in
+      List.map make_bw_obj (Array.to_list res_array)
+
+  end
+
+
+
+
+(* STATIC METHODS *)
+
+module Static = Methods(struct let i = bw_module end)
 
 let make windows_opt : browser_window =
   let obj = obj_of_browser_windows_opt windows_opt in
   let instance = Js.Unsafe.new_obj bw_module [| Js.Unsafe.inject obj |] in
-  new browser_window_obj instance
+  make_bw_obj instance
 
 let get_all_windows () =
   let res = Js.Unsafe.meth_call bw_module "getAllWindows" no_param in
   let res_array = Js.to_array res in
-  List.map (fun i -> new browser_window_obj i) (Array.to_list res_array)
+  List.map make_bw_obj (Array.to_list res_array)
 
 let get_focused_window () =
   let res = Js.Unsafe.meth_call bw_module "getFocusedWindow" no_param in
-  new browser_window_obj res
+  make_bw_obj res
 
 let from_web_contents () =
   assert false (* TODO *)
 
 let from_id id =
   let res = Js.Unsafe.meth_call bw_module "fromId" [| Js.Unsafe.inject id |] in
-  new browser_window_obj res
+  make_bw_obj res
 
 let add_dev_tools_extension path =
   Js.Unsafe.meth_call bw_module "addDevToolsExtension"

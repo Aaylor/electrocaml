@@ -104,7 +104,7 @@ class type browser_window = object
   method is_kiosk : unit -> bool
   method get_native_window_handle : unit -> unit (* TODO *)
   method hook_window_message : int -> (unit -> unit) -> unit
-  method is_window_message_hooked : unit -> bool
+  method is_window_message_hooked : int -> bool
   method unhook_window_message : int -> unit
   method unhook_all_window_messages : unit -> unit
   method set_represented_filename : string -> unit
