@@ -31,11 +31,153 @@ let string_of_title_bar_style = function
   | Hidden -> "hidden"
   | Hidden_inset -> "hidden-inset"
 
+type size = {
+  width : int;
+  height : int;
+}
+
+let obj_of_size size =
+  Js.Unsafe.obj
+    [| "width", Js.Unsafe.inject size.width;
+       "height", Js.Unsafe.inject size.height |]
+
+type position = {
+  x : int;
+  y : int;
+}
+
+let obj_of_position position =
+  Js.Unsafe.obj
+    [| "x", Js.Unsafe.inject position.x;
+       "y", Js.Unsafe.inject position.y; |]
+
+type size_with_position = {
+  position : position;
+  size : size;
+}
+
+let obj_of_size_with_position swc =
+  Js.Unsafe.obj
+    [| ("x", Js.Unsafe.inject swc.position.x);
+       ("y", Js.Unsafe.inject swc.position.y);
+       ("width", Js.Unsafe.inject swc.size.width);
+       ("height", Js.Unsafe.inject swc.size.height) |]
+
+type top_level =
+  | Normal
+  | Floating
+  | Torn_off_menu
+  | Modal_panel
+  | Main_menu
+  | Status
+  | Pop_up_menu
+  | Screen_saver
+  | Dock
+
+let string_of_top_level = function
+  | Normal -> "normal"
+  | Floating -> "floating"
+  | Torn_off_menu -> "torn-off-menu"
+  | Modal_panel -> "modal-panel"
+  | Main_menu -> "main-menu"
+  | Status -> "status"
+  | Pop_up_menu -> "pop-up-menu"
+  | Screen_saver -> "screen-saver"
+  | Dock -> "dock"
+
 class type browser_window = object
   method instance : browser_instance Js.t
   method id : int
   method load_url : string -> unit
+  method destroy : unit -> unit
+  method close : unit -> unit
+  method focus : unit -> unit
+  method blur : unit -> unit
+  method is_focused : unit -> bool
+  method is_destroyed : unit -> bool
+  method show : unit -> unit
+  method show_inactive : unit -> unit
+  method hide : unit -> unit
+  method is_visible : unit -> bool
+  method is_modal : unit -> bool
+  method maximize : unit -> unit
+  method unmaximize : unit -> unit
+  method is_maximized : unit -> bool
+  method minimize : unit -> unit
+  method restore : unit -> unit
+  method is_minimized : unit -> bool
+  method set_full_screen : bool -> unit
+  method is_full_screen : unit -> bool
+  method set_aspect_ratio : float -> ?extra_size:size -> unit
+  method set_bounds : size_with_position -> ?animate:bool -> unit
+  method get_bounds : unit -> size_with_position
+  method set_content_bounds : size_with_position -> ?animate:bool -> unit
+  method get_content_bounds : unit -> size_with_position
+  method set_size : size -> ?animate:bool -> unit
+  method get_size : unit -> size
+  method set_content_size : size -> ?animate:bool -> unit
+  method get_content_size : unit -> size
+  method set_minimum_size : size -> unit
+  method get_minimum_size : unit -> size
+  method set_maximum_size : size -> unit
+  method get_maximum_size : unit -> size
+  method set_resizable : bool -> unit
+  method is_resizable : unit -> bool
+  method set_movable : bool -> unit
+  method is_movable : unit -> bool
+  method set_minimizable : bool -> unit
+  method is_minimizable : unit -> bool
+  method set_maximizable : bool -> unit
+  method is_maximizable : unit -> bool
+  method set_full_screenable : bool -> unit
+  method is_full_screenable : unit -> bool
+  method set_closable : bool -> unit
+  method is_closable : unit -> bool
+  method set_always_on_top : bool -> ?level:top_level -> unit
+  method is_always_on_top : unit -> bool
+  method center : unit -> unit
+  method set_position : position -> ?animate:bool -> unit
+  method get_position : unit -> position
+  method set_title : string -> unit
+  method get_title : unit -> string
+  method set_sheet_offset : float -> ?offset_x:float -> unit
+  method flash_frame : bool -> unit
+  method set_skip_taskbar : bool -> unit
+  method set_kiosk : bool -> unit
+  method is_kiosk : unit -> bool
+  method get_native_window_handle : unit -> unit (* TODO *)
+  method hook_window_message : int -> (unit -> unit) -> unit
+  method is_window_message_hooked : unit -> bool
+  method unhook_window_message : unit -> unit
+  method unhook_all_window_messages : unit -> unit
+  method set_represented_filename : unit -> unit
+  method get_represented_filename : unit -> unit
+  method set_document_edited : unit -> unit
+  method is_document_edited : unit -> unit
+  method focus_on_web_view : unit -> unit
+  method blur_web_view : unit -> unit
+  method capture_page : unit -> unit
+  method set_menu : unit -> unit
+  method set_progress_bar : unit -> unit
+  method set_overlay_icon : unit -> unit
+  method set_has_shadow : unit -> unit
+  method has_shadow : unit -> unit
+  method set_thumbar_buttons : unit -> unit
+  method set_thumbnail_tool_tip : unit -> unit
+  method show_definition_for_selection : unit -> unit
+  method set_icon : unit -> unit
+  method set_auto_hide_menu_bar : unit -> unit
+  method is_menu_bar_auto_hide : unit -> unit
+  method set_menu_bar_visibility : unit -> unit
+  method is_menu_bar_visible : unit -> unit
+  method set_visible_on_all_workspaces : unit -> unit
+  method is_visible_on_all_workspaces : unit -> unit
+  method set_ignore_mouse_events : unit -> unit
+  method set_content_protection : unit -> unit
+  method set_focusable : unit -> unit
   method get_parent_window : unit -> browser_window
+  method set_parent_window : unit -> unit
+  method get_child_windows : unit -> unit
 end
 
 type web_preferences_t = {
@@ -242,7 +384,9 @@ let obj_of_browser_windows_opt bwo =
   in
   Js.Unsafe.obj (Array.of_list obj)
 
-class browser_window_obj instance : browser_window = object
+class browser_window_obj instance : browser_window = object(self)
+  method private call : type ret. string -> Js.Unsafe.any array -> ret =
+    Js.Unsafe.meth_call bw_module
 
   method id : int = instance##.id
 
@@ -250,15 +394,325 @@ class browser_window_obj instance : browser_window = object
 
   method instance : browser_instance Js.t = Js.Unsafe.coerce instance
 
-  method load_url (path : string) : unit =
-    Js.Unsafe.meth_call
-      instance
-      "loadURL"
-      [| Js.Unsafe.inject (Js.string path) |]
+  (* Events *)
+
+  (* Methods *)
+
+  method destroy () =
+    self#call "destroy" no_param
+
+  method close () =
+    self#call "close" no_param
+
+  method focus () =
+    self#call "focus" no_param
+
+  method blur () =
+    self#call "blur" no_param
+
+  method is_focused () =
+    Js.to_bool (self#call "isFocused" no_param)
+
+  method is_destroyed () =
+    Js.to_bool (self#call "isDestroyed" no_param)
+
+  method show () =
+    self#call "show" no_param
+
+  method show_inactive () =
+    self#call "showInactive" no_param
+
+  method hide () =
+    self#call "hide" no_param
+
+  method is_visible () =
+    Js.to_bool (self#call "isVisible" no_param)
+
+  method is_modal () =
+    Js.to_bool (self#call "isModal" no_param)
+
+  method maximize () =
+    self#call "maximize" no_param
+
+  method unmaximize () =
+    self#call "unmaximize" no_param
+
+  method is_maximized () =
+    Js.to_bool (self#call "isMaximized" no_param)
+
+  method minimize () =
+    self#call "minimize" no_param
+
+  method restore () =
+    self#call "restore" no_param
+
+  method is_minimized () =
+    Js.to_bool (self#call "isMinimized" no_param)
+
+  method set_full_screen flag =
+    self#call "setFullScreen" [| Js.Unsafe.inject (Js.bool flag) |]
+
+  method is_full_screen () =
+    Js.to_bool (self#call "isFullScreen" no_param)
+
+  method set_aspect_ratio aspect_ratio ?extra_size =
+    let extra_size = match extra_size with
+      | None -> no_param
+      | Some size -> [| Js.Unsafe.inject (obj_of_size size) |]
+    in
+    self#call "setAspectRatio"
+      (Array.append [| Js.Unsafe.inject (Js.float aspect_ratio) |] extra_size)
+
+  method private generic_set_bounds fname options ?animate =
+    let animate = match animate with
+      | None -> no_param
+      | Some animate -> [| Js.Unsafe.inject (Js.bool animate) |]
+    in
+    self#call fname
+      (Array.append
+         [| Js.Unsafe.inject (obj_of_size_with_position options) |]
+         animate)
+
+  method private generic_get_bounds fname =
+    let bounds = self#call fname no_param in
+    let read_int field : int = Js.Unsafe.get bounds field in
+    { position =
+        { x = read_int "x";
+          y = read_int "y"; };
+      size =
+        { width = read_int "width";
+          height = read_int "height"; }; }
+
+  method set_bounds options ?animate =
+    self#generic_set_bounds "setBounds" options animate
+
+  method get_bounds () =
+    self#generic_get_bounds "getBounds"
+
+  method set_content_bounds options ?animate =
+    self#generic_set_bounds "setContentBounds" options animate
+
+  method get_content_bounds () =
+    self#generic_get_bounds "getContentBounds"
+
+  method private generic_set_size fname (size : size) ?animate =
+    let animate = match animate with
+      | None -> no_param
+      | Some animate -> [| Js.Unsafe.inject (Js.bool animate) |]
+    in
+    self#call fname
+      (Array.append
+         [| Js.Unsafe.inject size.width;
+            Js.Unsafe.inject size.height; |]
+         animate)
+
+  method private generic_get_size fname =
+    let size = self#call fname no_param in
+    let width : int = match Js.Optdef.to_option (Js.array_get size 0) with
+      | None -> assert false    (* Should not happen. *)
+      | Some width -> width
+    in
+    let height : int = match Js.Optdef.to_option (Js.array_get size 1) with
+      | None -> assert false    (* Should not happen. *)
+      | Some height -> height
+    in
+    { width; height }
+
+  method set_size size ?animate =
+    self#generic_set_size "setSize" size animate
+
+  method get_size () =
+    self#generic_get_size "getSize"
+
+  method set_content_size size ?animate =
+    self#generic_set_size "setContentSize" size animate
+
+  method get_content_size () =
+    self#generic_get_size "getContentSize"
+
+  method set_minimum_size size =
+    self#generic_set_size "setMinimumSize" size None
+
+  method get_minimum_size () =
+    self#generic_get_size "getMinimumSize"
+
+  method set_maximum_size size =
+    self#generic_set_size "setMaximumSize" size None
+
+  method get_maximum_size () =
+    self#generic_get_size "getMaximumSize"
+
+  method set_resizable resizable =
+    self#call "setResizable" [| Js.Unsafe.inject (Js.bool resizable) |]
+
+  method is_resizable () =
+    Js.to_bool (self#call "isResizable" no_param)
+
+  method set_movable movable =
+    self#call "setMovable" [| Js.Unsafe.inject (Js.bool movable) |]
+
+  method is_movable () =
+    Js.to_bool (self#call "isMovable" no_param)
+
+  method set_minimizable minimizable =
+    self#call "setMinimizable" [| Js.Unsafe.inject (Js.bool minimizable) |]
+
+  method is_minimizable () =
+    Js.to_bool (self#call "isMinimizable" no_param)
+
+  method set_maximizable maximizable =
+    self#call "setMaximizable" [| Js.Unsafe.inject (Js.bool maximizable) |]
+
+  method is_maximizable () =
+    Js.to_bool (self#call "isMaximizable" no_param)
+
+  method set_full_screenable fullscreenable =
+    self#call "setFullScreenable"
+      [| Js.Unsafe.inject (Js.bool fullscreenable) |]
+
+  method is_full_screenable () =
+    Js.to_bool (self#call "isFullScreenable" no_param)
+
+  method set_closable closable =
+    self#call "setClosable" [| Js.Unsafe.inject (Js.bool closable) |]
+
+  method is_closable () =
+    Js.to_bool (self#call "isClosable" no_param)
+
+  method set_always_on_top flag ?level =
+    let level = match level with
+      | None -> no_param
+      | Some level ->
+        [| Js.Unsafe.inject (Js.string (string_of_top_level level)) |]
+    in
+    self#call "setAlwaysOnTop"
+      (Array.append [| Js.Unsafe.inject (Js.bool flag) |] level)
+
+  method is_always_on_top () =
+    Js.to_bool (self#call "isAlwaysOnTop" no_param)
+
+  method center () =
+    self#call "center" no_param
+
+  method set_position position ?animate =
+    let animate = match animate with
+      | None -> no_param
+      | Some animate -> [| Js.Unsafe.inject (Js.bool animate) |]
+    in
+    self#call "setPosition"
+      (Array.append
+         [| Js.Unsafe.inject position.x; Js.Unsafe.inject position.y |]
+         animate)
+
+  method get_position () =
+    let position = self#call "getPosition" no_param in
+    let get i : int = match Js.Optdef.to_option (Js.array_get position i) with
+      | None -> assert false
+      | Some v -> v
+    in
+    { x = get 0; y = get 1 }
+
+  method set_title title =
+    self#call "setTitle" [| Js.Unsafe.inject (Js.string title) |]
+
+  method get_title () =
+    Js.to_string (self#call "getTitle" no_param)
+
+  method set_sheet_offset offset_y ?offset_x =
+    let offset_x = match offset_x with
+      | None -> no_param
+      | Some off -> [| Js.Unsafe.inject (Js.float off) |]
+    in
+    self#call "setSheetOffset"
+      (Array.append [| Js.Unsafe.inject (Js.float offset_y) |] offset_x)
+
+  method flash_frame flag =
+    self#call "flashFrame" [| Js.Unsafe.inject (Js.bool flag) |]
+
+  method set_skip_taskbar skip =
+    self#call "setSkipTaskbar" [| Js.Unsafe.inject (Js.bool skip) |]
+
+  method set_kiosk flag =
+    self#call "setKiosk" [| Js.Unsafe.inject (Js.bool flag) |]
+
+  method is_kiosk () =
+    Js.to_bool (self#call "isKiosk" no_param)
+
+  method get_native_window_handle () = ()
+
+  method hook_window_message message cback =
+    self#call "hookWindowMessage"
+      [| Js.Unsafe.inject message;
+         Js.Unsafe.inject (Js.Unsafe.callback cback) |]
+
+  method is_window_message_hooked message =
+    Js.to_bool
+      (self#call "isWindowMessageHooked" [| Js.Unsafe.inject message |])
+
+  method unhook_window_message () (* message *) = ()
+
+  method unhook_all_window_messages () = ()
+
+  method set_represented_filename () (* filename *) = ()
+
+  method get_represented_filename () = ()
+
+  method set_document_edited () (* edited *) = ()
+
+  method is_document_edited () = ()
+
+  method focus_on_web_view () = ()
+
+  method blur_web_view () = ()
+
+  method capture_page () (* rect callback *) = ()
+
+  method set_menu () (* menu *) = ()
+
+  method set_progress_bar () (* progress options *) = ()
+
+  method set_overlay_icon () (* overlay description *) = ()
+
+  method set_has_shadow () (* has_shadow *) = ()
+
+  method has_shadow () = ()
+
+  method set_thumbar_buttons () (* buttons *) = ()
+
+  method set_thumbnail_tool_tip () (* tool_tip *) = ()
+
+  method show_definition_for_selection () = ()
+
+  method set_icon () (* icon *) = ()
+
+  method set_auto_hide_menu_bar () (* hide *) = ()
+
+  method is_menu_bar_auto_hide () = ()
+
+  method set_menu_bar_visibility () (* visible *) = ()
+
+  method is_menu_bar_visible () = ()
+
+  method set_visible_on_all_workspaces () (* visible *) = ()
+
+  method is_visible_on_all_workspaces () = ()
+
+  method set_ignore_mouse_events () (* ignore *) = ()
+
+  method set_content_protection () (* enable *) = ()
+
+  method set_focusable () (* focusable *) = ()
+
+  method set_parent_window () (* parent *) = ()
+
+  method load_url path =
+    self#call "loadURL" [| Js.Unsafe.inject (Js.string path) |]
 
   method get_parent_window () =
-    let res = Js.Unsafe.meth_call instance "getParentWindow" no_param in
+    let res = self#call "getParentWindow" no_param in
     new browser_window_obj res
+
+  method get_child_windows () = ()
 
 end
 

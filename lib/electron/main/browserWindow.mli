@@ -16,11 +16,125 @@ type title_bar_style_t =
   | Hidden
   | Hidden_inset
 
+type size = {
+  width : int;
+  height : int;
+}
+
+type position = {
+  x : int;
+  y : int;
+}
+
+type size_with_position = {
+  position : position;
+  size : size;
+}
+
+type top_level =
+  | Normal
+  | Floating
+  | Torn_off_menu
+  | Modal_panel
+  | Main_menu
+  | Status
+  | Pop_up_menu
+  | Screen_saver
+  | Dock
+
 class type browser_window = object
   method instance : browser_instance Js.t
   method id : int
   method load_url : string -> unit
+  method destroy : unit -> unit
+  method close : unit -> unit
+  method focus : unit -> unit
+  method blur : unit -> unit
+  method is_focused : unit -> bool
+  method is_destroyed : unit -> bool
+  method show : unit -> unit
+  method show_inactive : unit -> unit
+  method hide : unit -> unit
+  method is_visible : unit -> bool
+  method is_modal : unit -> bool
+  method maximize : unit -> unit
+  method unmaximize : unit -> unit
+  method is_maximized : unit -> bool
+  method minimize : unit -> unit
+  method restore : unit -> unit
+  method is_minimized : unit -> bool
+  method set_full_screen : bool -> unit
+  method is_full_screen : unit -> bool
+  method set_aspect_ratio : float -> ?extra_size:size -> unit
+  method set_bounds : size_with_position -> ?animate:bool -> unit
+  method get_bounds : unit -> size_with_position
+  method set_content_bounds : size_with_position -> ?animate:bool -> unit
+  method get_content_bounds : unit -> size_with_position
+  method set_size : size -> ?animate:bool -> unit
+  method get_size : unit -> size
+  method set_content_size : size -> ?animate:bool -> unit
+  method get_content_size : unit -> size
+  method set_minimum_size : size -> unit
+  method get_minimum_size : unit -> size
+  method set_maximum_size : size -> unit
+  method get_maximum_size : unit -> size
+  method set_resizable : bool -> unit
+  method is_resizable : unit -> bool
+  method set_movable : bool -> unit
+  method is_movable : unit -> bool
+  method set_minimizable : bool -> unit
+  method is_minimizable : unit -> bool
+  method set_maximizable : bool -> unit
+  method is_maximizable : unit -> bool
+  method set_full_screenable : bool -> unit
+  method is_full_screenable : unit -> bool
+  method set_closable : bool -> unit
+  method is_closable : unit -> bool
+  method set_always_on_top : bool -> ?level:top_level -> unit
+  method is_always_on_top : unit -> bool
+  method center : unit -> unit
+  method set_position : position -> ?animate:bool -> unit
+  method get_position : unit -> position
+  method set_title : string -> unit
+  method get_title : unit -> string
+  method set_sheet_offset : float -> ?offset_x:float -> unit
+  method flash_frame : bool -> unit
+  method set_skip_taskbar : bool -> unit
+  method set_kiosk : bool -> unit
+  method is_kiosk : unit -> bool
+  method get_native_window_handle : unit -> unit (* TODO *)
+  method hook_window_message : int -> (unit -> unit) -> unit
+  method is_window_message_hooked : unit -> bool
+  method unhook_window_message : unit -> unit
+  method unhook_all_window_messages : unit -> unit
+  method set_represented_filename : unit -> unit
+  method get_represented_filename : unit -> unit
+  method set_document_edited : unit -> unit
+  method is_document_edited : unit -> unit
+  method focus_on_web_view : unit -> unit
+  method blur_web_view : unit -> unit
+  method capture_page : unit -> unit
+  method set_menu : unit -> unit
+  method set_progress_bar : unit -> unit
+  method set_overlay_icon : unit -> unit
+  method set_has_shadow : unit -> unit
+  method has_shadow : unit -> unit
+  method set_thumbar_buttons : unit -> unit
+  method set_thumbnail_tool_tip : unit -> unit
+  method show_definition_for_selection : unit -> unit
+  method set_icon : unit -> unit
+  method set_auto_hide_menu_bar : unit -> unit
+  method is_menu_bar_auto_hide : unit -> unit
+  method set_menu_bar_visibility : unit -> unit
+  method is_menu_bar_visible : unit -> unit
+  method set_visible_on_all_workspaces : unit -> unit
+  method is_visible_on_all_workspaces : unit -> unit
+  method set_ignore_mouse_events : unit -> unit
+  method set_content_protection : unit -> unit
+  method set_focusable : unit -> unit
   method get_parent_window : unit -> browser_window
+  method set_parent_window : unit -> unit
+  method get_child_windows : unit -> unit
 end
 
 type web_preferences_t = {

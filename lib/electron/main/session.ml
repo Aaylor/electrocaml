@@ -13,7 +13,7 @@ end
 
 class session_obj instance : session = object(self)
   method private call : type ret. string -> Js.Unsafe.any array -> ret =
-      Js.Unsafe.meth_call session_module
+    Js.Unsafe.meth_call session_module
 
   method instance : session_instance Js.t = Js.Unsafe.coerce instance
 
