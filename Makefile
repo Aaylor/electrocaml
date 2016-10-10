@@ -3,7 +3,7 @@ OCAMLBUILD = ocamlbuild
 # FILES
 ROOT = lib
 BUILD_ROOT = _build/$(ROOT)
-LIB_NAME =	electron
+LIB_NAME = electron
 
 # FLAGS
 FOLDERS =	$(shell find $(ROOT) -type d)
@@ -21,6 +21,22 @@ all: clean-copy
 				-pkgs $(PACKAGES) $(LIB_NAME).cma
 		cp $(BUILD_ROOT)/$(LIB_NAME).cm* .
 
+# ocamldoc does not support packed modules...
+# workaround find there:
+# http://stackoverflow.com/questions/17368613/using-ocamldoc-with-packs
+
+.PHONY: doc
+doc: clean-copy
+		ocp-pack -mli -o lib/electron/main.ml lib/electron/main/*.ml
+		ocp-pack -mli -o lib/electron/renderer.ml lib/electron/renderer/*.ml
+		ocp-pack -mli -o lib/electron.ml.tmp lib/electron/*.ml
+		echo "(** Implementation of Electron project. *)" > lib/electron.mli
+		cat lib/electron.ml.tmpi >> lib/electron.mli; rm lib/electron.ml.tmpi
+		mv lib/electron.ml.tmp lib/electron.ml
+		$(OCAMLBUILD) $(OCAMLBUILD_FLAG) $(FOLDERS_FLAG) -pkgs $(PACKAGES) \
+				$(LIB_NAME).docdir/index.html
+		rm -f lib/electron/main.ml[i] lib/electron/renderer.ml[i] lib/electron.ml[i]
+
 .PHONY: clean
 clean: clean-copy
 		$(OCAMLBUILD) -clean
@@ -28,3 +44,5 @@ clean: clean-copy
 .PHONY: clean-copy
 clean-copy:
 		rm -f *.cm*
+		rm -f lib/electron/main.{ml,mli} lib/electron/renderer.{ml,mli} \
+				lib/electron.{ml,mli}

@@ -7,8 +7,6 @@ let bw_module = electron##._BrowserWindow
 
 (* TYPES *)
 
-type browser_instance
-
 type windows_t =
   | Desktop
   | Dock
@@ -90,7 +88,7 @@ let string_of_top_level = function
   | Dock -> "dock"
 
 class type browser_window = object
-  method instance : browser_instance Js.t
+  method instance : instance
   method id : int
   method destroy : unit -> unit
   method close : unit -> unit
@@ -401,7 +399,7 @@ let rec make_bw_obj instance : browser_window =
 
     (* val web_contents = instance##.webContents (\* TODO *\) *)
 
-    method instance : browser_instance Js.t = Js.Unsafe.coerce instance
+    method instance = instance
 
     (* Events *)
 

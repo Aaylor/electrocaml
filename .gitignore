@@ -1,2 +1,9 @@
 _build
 *.cm*
+lib/electron/main.ml
+lib/electron/main.mli
+lib/electron/renderer.ml
+lib/electron/renderer.mli
+lib/electron.ml
+lib/electron.mli
+electron.docdir

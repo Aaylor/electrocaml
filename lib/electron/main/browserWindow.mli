@@ -1,7 +1,11 @@
+(** Implementation of the BrowserWindow module. *)
+
+(** {2 Module} *)
 
 val bw_module : 'a
 
-type browser_instance
+
+(** {2 Types} *)
 
 type windows_t =
   | Desktop
@@ -42,9 +46,8 @@ type top_level =
   | Screen_saver
   | Dock
 
-
 class type browser_window = object
-  method instance : browser_instance Js.t
+  method instance : Util.instance
   method id : int
   method destroy : unit -> unit
   method close : unit -> unit
@@ -208,6 +211,9 @@ type browser_window_option = {
   thick_frame : bool option;
   web_preferences : web_preferences_t option;
 }
+
+
+(** {2 Static Method} *)
 
 val default_web_preferences : web_preferences_t
 
