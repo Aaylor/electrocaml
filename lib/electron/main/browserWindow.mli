@@ -42,10 +42,10 @@ type top_level =
   | Screen_saver
   | Dock
 
+
 class type browser_window = object
   method instance : browser_instance Js.t
   method id : int
-  method load_url : string -> unit
   method destroy : unit -> unit
   method close : unit -> unit
   method focus : unit -> unit
@@ -105,36 +105,39 @@ class type browser_window = object
   method get_native_window_handle : unit -> unit (* TODO *)
   method hook_window_message : int -> (unit -> unit) -> unit
   method is_window_message_hooked : unit -> bool
-  method unhook_window_message : unit -> unit
+  method unhook_window_message : int -> unit
   method unhook_all_window_messages : unit -> unit
-  method set_represented_filename : unit -> unit
-  method get_represented_filename : unit -> unit
-  method set_document_edited : unit -> unit
-  method is_document_edited : unit -> unit
+  method set_represented_filename : string -> unit
+  method get_represented_filename : unit -> string
+  method set_document_edited : bool -> unit
+  method is_document_edited : unit -> bool
   method focus_on_web_view : unit -> unit
   method blur_web_view : unit -> unit
-  method capture_page : unit -> unit
-  method set_menu : unit -> unit
-  method set_progress_bar : unit -> unit
-  method set_overlay_icon : unit -> unit
-  method set_has_shadow : unit -> unit
-  method has_shadow : unit -> unit
-  method set_thumbar_buttons : unit -> unit
-  method set_thumbnail_tool_tip : unit -> unit
+  method capture_page : ?rect:size_with_position -> (unit -> unit) -> unit
+  method load_url : string -> unit
+  method reload : unit -> unit
+  method set_menu : unit -> unit (* TODO: Main.Menu *)
+  method set_progress_bar : unit -> unit (* TODO: Double ? *)
+  method set_overlay_icon : unit -> unit (* TODO: Both.NativeImage *)
+  method set_has_shadow : bool -> unit
+  method has_shadow : unit -> bool
+  method set_thumbar_buttons : unit -> unit (* TODO: Both.NativeImage *)
+  method set_thumbnail_clip : size_with_position -> unit
+  method set_thumbnail_tool_tip : string -> unit
   method show_definition_for_selection : unit -> unit
-  method set_icon : unit -> unit
-  method set_auto_hide_menu_bar : unit -> unit
-  method is_menu_bar_auto_hide : unit -> unit
-  method set_menu_bar_visibility : unit -> unit
-  method is_menu_bar_visible : unit -> unit
-  method set_visible_on_all_workspaces : unit -> unit
-  method is_visible_on_all_workspaces : unit -> unit
-  method set_ignore_mouse_events : unit -> unit
-  method set_content_protection : unit -> unit
-  method set_focusable : unit -> unit
+  method set_icon : unit -> unit (* TODO: Both.NativeImage *)
+  method set_auto_hide_menu_bar : bool -> unit
+  method is_menu_bar_auto_hide : unit -> bool
+  method set_menu_bar_visibility : bool -> unit
+  method is_menu_bar_visible : unit -> bool
+  method set_visible_on_all_workspaces : bool -> unit
+  method is_visible_on_all_workspaces : unit -> bool
+  method set_ignore_mouse_events : bool -> unit
+  method set_content_protection : bool -> unit
+  method set_focusable : bool -> unit
+  method set_parent_window : browser_window -> unit
   method get_parent_window : unit -> browser_window
-  method set_parent_window : unit -> unit
-  method get_child_windows : unit -> unit
+  method get_child_windows : unit -> browser_window list
 end
 
 type web_preferences_t = {

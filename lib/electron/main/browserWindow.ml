@@ -88,7 +88,6 @@ let string_of_top_level = function
 class type browser_window = object
   method instance : browser_instance Js.t
   method id : int
-  method load_url : string -> unit
   method destroy : unit -> unit
   method close : unit -> unit
   method focus : unit -> unit
@@ -148,36 +147,39 @@ class type browser_window = object
   method get_native_window_handle : unit -> unit (* TODO *)
   method hook_window_message : int -> (unit -> unit) -> unit
   method is_window_message_hooked : unit -> bool
-  method unhook_window_message : unit -> unit
+  method unhook_window_message : int -> unit
   method unhook_all_window_messages : unit -> unit
-  method set_represented_filename : unit -> unit
-  method get_represented_filename : unit -> unit
-  method set_document_edited : unit -> unit
-  method is_document_edited : unit -> unit
+  method set_represented_filename : string -> unit
+  method get_represented_filename : unit -> string
+  method set_document_edited : bool -> unit
+  method is_document_edited : unit -> bool
   method focus_on_web_view : unit -> unit
   method blur_web_view : unit -> unit
-  method capture_page : unit -> unit
-  method set_menu : unit -> unit
-  method set_progress_bar : unit -> unit
-  method set_overlay_icon : unit -> unit
-  method set_has_shadow : unit -> unit
-  method has_shadow : unit -> unit
-  method set_thumbar_buttons : unit -> unit
-  method set_thumbnail_tool_tip : unit -> unit
+  method capture_page : ?rect:size_with_position -> (unit -> unit) -> unit
+  method load_url : string -> unit
+  method reload : unit -> unit
+  method set_menu : unit -> unit (* TODO: Main.Menu *)
+  method set_progress_bar : unit -> unit (* TODO: Double ? *)
+  method set_overlay_icon : unit -> unit (* TODO: Both.NativeImage *)
+  method set_has_shadow : bool -> unit
+  method has_shadow : unit -> bool
+  method set_thumbar_buttons : unit -> unit (* TODO: Both.NativeImage *)
+  method set_thumbnail_clip : size_with_position -> unit
+  method set_thumbnail_tool_tip : string -> unit
   method show_definition_for_selection : unit -> unit
-  method set_icon : unit -> unit
-  method set_auto_hide_menu_bar : unit -> unit
-  method is_menu_bar_auto_hide : unit -> unit
-  method set_menu_bar_visibility : unit -> unit
-  method is_menu_bar_visible : unit -> unit
-  method set_visible_on_all_workspaces : unit -> unit
-  method is_visible_on_all_workspaces : unit -> unit
-  method set_ignore_mouse_events : unit -> unit
-  method set_content_protection : unit -> unit
-  method set_focusable : unit -> unit
+  method set_icon : unit -> unit (* TODO: Both.NativeImage *)
+  method set_auto_hide_menu_bar : bool -> unit
+  method is_menu_bar_auto_hide : unit -> bool
+  method set_menu_bar_visibility : bool -> unit
+  method is_menu_bar_visible : unit -> bool
+  method set_visible_on_all_workspaces : bool -> unit
+  method is_visible_on_all_workspaces : unit -> bool
+  method set_ignore_mouse_events : bool -> unit
+  method set_content_protection : bool -> unit
+  method set_focusable : bool -> unit
+  method set_parent_window : browser_window -> unit
   method get_parent_window : unit -> browser_window
-  method set_parent_window : unit -> unit
-  method get_child_windows : unit -> unit
+  method get_child_windows : unit -> browser_window list
 end
 
 type web_preferences_t = {
@@ -386,7 +388,7 @@ let obj_of_browser_windows_opt bwo =
 
 class browser_window_obj instance : browser_window = object(self)
   method private call : type ret. string -> Js.Unsafe.any array -> ret =
-    Js.Unsafe.meth_call bw_module
+    Js.Unsafe.meth_call instance
 
   method id : int = instance##.id
 
@@ -643,29 +645,50 @@ class browser_window_obj instance : browser_window = object(self)
   method hook_window_message message cback =
     self#call "hookWindowMessage"
       [| Js.Unsafe.inject message;
-         Js.Unsafe.inject (Js.Unsafe.callback cback) |]
+         Js.Unsafe.inject (Js.Unsafe.meth_callback cback) |]
 
   method is_window_message_hooked message =
     Js.to_bool
       (self#call "isWindowMessageHooked" [| Js.Unsafe.inject message |])
 
-  method unhook_window_message () (* message *) = ()
+  method unhook_window_message message =
+    self#call "unhookWindowMessage" [| Js.Unsafe.inject message |]
 
-  method unhook_all_window_messages () = ()
+  method unhook_all_window_messages () =
+    self#call "unhookAllWindowMessages" no_param
 
-  method set_represented_filename () (* filename *) = ()
+  method set_represented_filename filename =
+    self#call "setRepresentedFilename"
+      [| Js.Unsafe.inject (Js.string filename) |]
 
-  method get_represented_filename () = ()
+  method get_represented_filename () =
+    Js.to_string (self#call "getRepresentedFilename" no_param)
 
-  method set_document_edited () (* edited *) = ()
+  method set_document_edited edited =
+    self#call "setDocumentEdited" [| Js.Unsafe.inject (Js.bool edited) |]
 
-  method is_document_edited () = ()
+  method is_document_edited () =
+    Js.to_bool (self#call "isDocumentEdited" no_param)
 
-  method focus_on_web_view () = ()
+  method focus_on_web_view () =
+    self#call "focusOnWebView" no_param
 
-  method blur_web_view () = ()
+  method blur_web_view () =
+    self#call "blurWebView" no_param
 
-  method capture_page () (* rect callback *) = ()
+  method capture_page ?rect cback =
+    let rect = match rect with
+      | None -> no_param
+      | Some rect -> [| Js.Unsafe.inject (obj_of_size_with_position rect) |]
+    in
+    self#call "capturePage"
+      (Array.append rect [| Js.Unsafe.inject (Js.Unsafe.meth_callback cback) |])
+
+  method load_url path =
+    self#call "loadURL" [| Js.Unsafe.inject (Js.string path) |]
+
+  method reload () =
+    self#call "reload" no_param
 
   method set_menu () (* menu *) = ()
 
@@ -673,46 +696,65 @@ class browser_window_obj instance : browser_window = object(self)
 
   method set_overlay_icon () (* overlay description *) = ()
 
-  method set_has_shadow () (* has_shadow *) = ()
+  method set_has_shadow has_shadow =
+    self#call "setHasShadow" [| Js.Unsafe.inject (Js.bool has_shadow) |]
 
-  method has_shadow () = ()
+  method has_shadow () =
+    Js.to_bool (self#call "hasShadow" no_param)
 
   method set_thumbar_buttons () (* buttons *) = ()
 
-  method set_thumbnail_tool_tip () (* tool_tip *) = ()
+  method set_thumbnail_clip region =
+    self#call "setThumbnailClip"
+      [| Js.Unsafe.inject (obj_of_size_with_position region) |]
 
-  method show_definition_for_selection () = ()
+  method set_thumbnail_tool_tip tool_tip =
+    self#call "setThumbnailToolTip" [| Js.Unsafe.inject (Js.string tool_tip) |]
+
+  method show_definition_for_selection () =
+    self#call "showDefinitionForSelection" no_param
 
   method set_icon () (* icon *) = ()
 
-  method set_auto_hide_menu_bar () (* hide *) = ()
+  method set_auto_hide_menu_bar hide =
+    self#call "setAutoHideMenuBar" [| Js.Unsafe.inject (Js.bool hide) |]
 
-  method is_menu_bar_auto_hide () = ()
+  method is_menu_bar_auto_hide () =
+    Js.to_bool (self#call "isMenuBarAutoHide" no_param)
 
-  method set_menu_bar_visibility () (* visible *) = ()
+  method set_menu_bar_visibility visible =
+    self#call "setMenuBarVisibility" [| Js.Unsafe.inject (Js.bool visible) |]
 
-  method is_menu_bar_visible () = ()
+  method is_menu_bar_visible () =
+    Js.to_bool (self#call "isMenuBarVisible" no_param)
 
-  method set_visible_on_all_workspaces () (* visible *) = ()
+  method set_visible_on_all_workspaces visible =
+    self#call "setVisibleOnAllWorkspaces"
+      [| Js.Unsafe.inject (Js.bool visible) |]
 
-  method is_visible_on_all_workspaces () = ()
+  method is_visible_on_all_workspaces () =
+    Js.to_bool (self#call "isVisibleOnAllWorkspaces" no_param)
 
-  method set_ignore_mouse_events () (* ignore *) = ()
+  method set_ignore_mouse_events ignore_ =
+    self#call "setIgnoreMouseEvents" [| Js.Unsafe.inject (Js.bool ignore_) |]
 
-  method set_content_protection () (* enable *) = ()
+  method set_content_protection enable =
+    self#call "setContentProtection" [| Js.Unsafe.inject (Js.bool enable) |]
 
-  method set_focusable () (* focusable *) = ()
+  method set_focusable focusable =
+    self#call "setFocusable" [| Js.Unsafe.inject (Js.bool focusable) |]
 
-  method set_parent_window () (* parent *) = ()
-
-  method load_url path =
-    self#call "loadURL" [| Js.Unsafe.inject (Js.string path) |]
+  method set_parent_window parent =
+    self#call "setParentWindow" [| Js.Unsafe.inject parent#instance |]
 
   method get_parent_window () =
     let res = self#call "getParentWindow" no_param in
     new browser_window_obj res
 
-  method get_child_windows () = ()
+  method get_child_windows () =
+    let res = self#call "getChildWindows" no_param in
+    let res_array = Js.to_array res in
+    List.map (fun i -> new browser_window_obj i) (Array.to_list res_array)
 
 end
 
