@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="next" href="Electron.Main.App.html">
+<link rel="Up" href="Electron.Main.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of class methods" rel=Appendix href="index_methods.html">
+<link title="Index of class types" rel=Appendix href="index_class_types.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Electron" rel="Chapter" href="Electron.html"><link title="Modifiers" rel="Section" href="#2_Modifiers">
+<link title="Key codes" rel="Section" href="#2_Keycodes">
+<link title="Helper Function" rel="Section" href="#2_HelperFunction">
+<title>Electron.Main.Accelerator</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="Electron.Main.html" title="Electron.Main">Up</a>
+&nbsp;<a class="post" href="Electron.Main.App.html" title="Electron.Main.App">Next</a>
+</div>
+<h1>Module <a href="type_Electron.Main.Accelerator.html">Electron.Main.Accelerator</a></h1>
+
+<pre><span class="keyword">module</span> Accelerator: <code class="code">sig</code> <a href="Electron.Main.Accelerator.html">..</a> <code class="code">end</code></pre><hr width="100%">
+<br>
+Implementation of Accelerator<br>
+<br>
+<h2 id="2_Modifiers">Modifiers</h2><br>
+
+<pre><code><span id="TYPEmodifiers"><span class="keyword">type</span> <code class="type"></code>modifiers</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmodifiers.Command"><span class="constructor">Command</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmodifiers.Control"><span class="constructor">Control</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmodifiers.CommandOrControl"><span class="constructor">CommandOrControl</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmodifiers.Alt"><span class="constructor">Alt</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmodifiers.Option"><span class="constructor">Option</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmodifiers.AltGr"><span class="constructor">AltGr</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmodifiers.Shift"><span class="constructor">Shift</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmodifiers.Super"><span class="constructor">Super</span></span></code></td>
+
+</tr></table>
+
+
+
+<pre><span id="VALstring_of_modifiers"><span class="keyword">val</span> string_of_modifiers</span> : <code class="type"><a href="Electron.Main.Accelerator.html#TYPEmodifiers">modifiers</a> -> string</code></pre>
+<pre><span id="VALmodifiers_of_string"><span class="keyword">val</span> modifiers_of_string</span> : <code class="type">string -> <a href="Electron.Main.Accelerator.html#TYPEmodifiers">modifiers</a></code></pre><br>
+<h2 id="2_Keycodes">Key codes</h2><br>
+
+<pre><code><span id="TYPEkey_code"><span class="keyword">type</span> <code class="type"></code>key_code</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Number"><span class="constructor">Number</span></span> <span class="keyword">of</span> <code class="type">int</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Letter"><span class="constructor">Letter</span></span> <span class="keyword">of</span> <code class="type">char</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.FKey"><span class="constructor">FKey</span></span> <span class="keyword">of</span> <code class="type">int</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Punc"><span class="constructor">Punc</span></span> <span class="keyword">of</span> <code class="type">char</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Plus"><span class="constructor">Plus</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Space"><span class="constructor">Space</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Tab"><span class="constructor">Tab</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Backspace"><span class="constructor">Backspace</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Delete"><span class="constructor">Delete</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Insert"><span class="constructor">Insert</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Return"><span class="constructor">Return</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Up"><span class="constructor">Up</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Down"><span class="constructor">Down</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Left"><span class="constructor">Left</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Right"><span class="constructor">Right</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Home"><span class="constructor">Home</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.End"><span class="constructor">End</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.PageUp"><span class="constructor">PageUp</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.PageDown"><span class="constructor">PageDown</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.Escape"><span class="constructor">Escape</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.VolumeUp"><span class="constructor">VolumeUp</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.VolumeDown"><span class="constructor">VolumeDown</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.VolumeMute"><span class="constructor">VolumeMute</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.MediaNextTrack"><span class="constructor">MediaNextTrack</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.MediaPreviousTrack"><span class="constructor">MediaPreviousTrack</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.MediaStop"><span class="constructor">MediaStop</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.MediaPlayPause"><span class="constructor">MediaPlayPause</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkey_code.PrintScreen"><span class="constructor">PrintScreen</span></span></code></td>
+
+</tr></table>
+
+
+
+<pre><span id="VALstring_of_key_code"><span class="keyword">val</span> string_of_key_code</span> : <code class="type"><a href="Electron.Main.Accelerator.html#TYPEkey_code">key_code</a> -> string</code></pre>
+<pre><span id="VALkey_code_of_string"><span class="keyword">val</span> key_code_of_string</span> : <code class="type">string -> <a href="Electron.Main.Accelerator.html#TYPEkey_code">key_code</a></code></pre><br>
+<h2 id="2_HelperFunction">Helper Function</h2><br>
+
+<pre><span id="VALmake_accelerator"><span class="keyword">val</span> make_accelerator</span> : <code class="type"><a href="Electron.Main.Accelerator.html#TYPEmodifiers">modifiers</a> list -><br>       <a href="Electron.Main.Accelerator.html#TYPEkey_code">key_code</a> list -> string</code></pre></body></html>
