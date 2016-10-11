@@ -1,0 +1,695 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Electron.Main.App.html">
+<link rel="next" href="Electron.Main.Locales.html">
+<link rel="Up" href="Electron.Main.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of class methods" rel=Appendix href="index_methods.html">
+<link title="Index of class types" rel=Appendix href="index_class_types.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Electron" rel="Chapter" href="Electron.html"><link title="Module" rel="Section" href="#2_Module">
+<link title="Types" rel="Section" href="#2_Types">
+<link title="Static Method" rel="Section" href="#2_StaticMethod">
+<title>Electron.Main.BrowserWindow</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Electron.Main.App.html" title="Electron.Main.App">Previous</a>
+&nbsp;<a class="up" href="Electron.Main.html" title="Electron.Main">Up</a>
+&nbsp;<a class="post" href="Electron.Main.Locales.html" title="Electron.Main.Locales">Next</a>
+</div>
+<h1>Module <a href="type_Electron.Main.BrowserWindow.html">Electron.Main.BrowserWindow</a></h1>
+
+<pre><span class="keyword">module</span> BrowserWindow: <code class="code">sig</code> <a href="Electron.Main.BrowserWindow.html">..</a> <code class="code">end</code></pre><hr width="100%">
+<br>
+Implementation of the BrowserWindow module.<br>
+<br>
+<h2 id="2_Module">Module</h2><br>
+
+<pre><span id="VALbw_module"><span class="keyword">val</span> bw_module</span> : <code class="type">'a</code></pre><br>
+<h2 id="2_Types">Types</h2><br>
+
+<pre><code><span id="TYPEwindows_t"><span class="keyword">type</span> <code class="type"></code>windows_t</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTwindows_t.Desktop"><span class="constructor">Desktop</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTwindows_t.Dock"><span class="constructor">Dock</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTwindows_t.Toolbar"><span class="constructor">Toolbar</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTwindows_t.Splash"><span class="constructor">Splash</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTwindows_t.Notification"><span class="constructor">Notification</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTwindows_t.Textured"><span class="constructor">Textured</span></span></code></td>
+
+</tr></table>
+
+
+
+<pre><code><span id="TYPEtitle_bar_style_t"><span class="keyword">type</span> <code class="type"></code>title_bar_style_t</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtitle_bar_style_t.Default"><span class="constructor">Default</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtitle_bar_style_t.Hidden"><span class="constructor">Hidden</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtitle_bar_style_t.Hidden_inset"><span class="constructor">Hidden_inset</span></span></code></td>
+
+</tr></table>
+
+
+
+<pre><code><span id="TYPEsize"><span class="keyword">type</span> <code class="type"></code>size</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTsize.width">width</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTsize.height">height</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><code><span id="TYPEposition"><span class="keyword">type</span> <code class="type"></code>position</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTposition.x">x</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTposition.y">y</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><code><span id="TYPEsize_with_position"><span class="keyword">type</span> <code class="type"></code>size_with_position</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTsize_with_position.position">position</span>&nbsp;: <code class="type"><a href="Electron.Main.BrowserWindow.html#TYPEposition">position</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTsize_with_position.size">size</span>&nbsp;: <code class="type"><a href="Electron.Main.BrowserWindow.html#TYPEsize">size</a></code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><code><span id="TYPEtop_level"><span class="keyword">type</span> <code class="type"></code>top_level</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtop_level.Normal"><span class="constructor">Normal</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtop_level.Floating"><span class="constructor">Floating</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtop_level.Torn_off_menu"><span class="constructor">Torn_off_menu</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtop_level.Modal_panel"><span class="constructor">Modal_panel</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtop_level.Main_menu"><span class="constructor">Main_menu</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtop_level.Status"><span class="constructor">Status</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtop_level.Pop_up_menu"><span class="constructor">Pop_up_menu</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtop_level.Screen_saver"><span class="constructor">Screen_saver</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtop_level.Dock"><span class="constructor">Dock</span></span></code></td>
+
+</tr></table>
+
+
+
+<pre><span id="TYPEbrowser_window"><span class="keyword">class type</span> <a href="Electron.Main.BrowserWindow.browser_window-c.html">browser_window</a></span> = <code class="code">object</code> <a href="Electron.Main.BrowserWindow.browser_window-c.html">..</a> <code class="code">end</code></pre>
+<pre><code><span id="TYPEweb_preferences_t"><span class="keyword">type</span> <code class="type"></code>web_preferences_t</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.dev_tools">dev_tools</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.node_integration">node_integration</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.preload">preload</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.session">session</span>&nbsp;: <code class="type">Session.session option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.partition">partition</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.zoom_factor">zoom_factor</span>&nbsp;: <code class="type">float option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.javascript">javascript</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.web_security">web_security</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.allow_displaying_insecure_content">allow_displaying_insecure_content</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.allow_running_insecure_content">allow_running_insecure_content</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.images">images</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.text_areas_are_resizable">text_areas_are_resizable</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.webgl">webgl</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.webaudio">webaudio</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.plugins">plugins</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.experimental_features">experimental_features</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.experimental_canvas_features">experimental_canvas_features</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.scroll_bounce">scroll_bounce</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.blink_features">blink_features</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.disable_blink_features">disable_blink_features</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.default_font_family">default_font_family</span>&nbsp;: <code class="type">unit option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.default_font_size">default_font_size</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.default_monospace_font_size">default_monospace_font_size</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.default_encoding">default_encoding</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.background_throttling">background_throttling</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTweb_preferences_t.offscreen">offscreen</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><code><span id="TYPEbrowser_window_option"><span class="keyword">type</span> <code class="type"></code>browser_window_option</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.width">width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.height">height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.x_y">x_y</span>&nbsp;: <code class="type">(int * int) option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.use_content_size">use_content_size</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.center">center</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.min_width">min_width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.min_height">min_height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.max_width">max_width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.max_height">max_height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.resizable">resizable</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.movable">movable</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.minimizable">minimizable</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.maximizable">maximizable</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.closable">closable</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.focusable">focusable</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.always_on_top">always_on_top</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.fullscreen">fullscreen</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.fullscreenable">fullscreenable</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.skip_taskbar">skip_taskbar</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.kioks">kioks</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.title">title</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.show">show</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.frame">frame</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.parent">parent</span>&nbsp;: <code class="type"><a href="Electron.Main.BrowserWindow.browser_window-c.html">browser_window</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.modal">modal</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.accept_first_mouse">accept_first_mouse</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.disable_auto_hide_cursor">disable_auto_hide_cursor</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.auto_hide_menu_bar">auto_hide_menu_bar</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.enable_larger_than_screen">enable_larger_than_screen</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.background_color">background_color</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.has_shadow">has_shadow</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.dark_theme">dark_theme</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.transparent">transparent</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.type_">type_</span>&nbsp;: <code class="type"><a href="Electron.Main.BrowserWindow.html#TYPEwindows_t">windows_t</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.title_bar_style">title_bar_style</span>&nbsp;: <code class="type"><a href="Electron.Main.BrowserWindow.html#TYPEtitle_bar_style_t">title_bar_style_t</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.thick_frame">thick_frame</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbrowser_window_option.web_preferences">web_preferences</span>&nbsp;: <code class="type"><a href="Electron.Main.BrowserWindow.html#TYPEweb_preferences_t">web_preferences_t</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+
+<br>
+<h2 id="2_StaticMethod">Static Method</h2><br>
+
+<pre><span id="VALdefault_web_preferences"><span class="keyword">val</span> default_web_preferences</span> : <code class="type"><a href="Electron.Main.BrowserWindow.html#TYPEweb_preferences_t">web_preferences_t</a></code></pre>
+<pre><span id="VALdefault_browser_windows_option"><span class="keyword">val</span> default_browser_windows_option</span> : <code class="type"><a href="Electron.Main.BrowserWindow.html#TYPEbrowser_window_option">browser_window_option</a></code></pre>
+<pre><span id="VALmake"><span class="keyword">val</span> make</span> : <code class="type"><a href="Electron.Main.BrowserWindow.html#TYPEbrowser_window_option">browser_window_option</a> -><br>       <a href="Electron.Main.BrowserWindow.browser_window-c.html">browser_window</a></code></pre>
+<pre><span id="VALget_all_windows"><span class="keyword">val</span> get_all_windows</span> : <code class="type">unit -> <a href="Electron.Main.BrowserWindow.browser_window-c.html">browser_window</a> list</code></pre>
+<pre><span id="VALget_focused_window"><span class="keyword">val</span> get_focused_window</span> : <code class="type">unit -> <a href="Electron.Main.BrowserWindow.browser_window-c.html">browser_window</a></code></pre>
+<pre><span id="VALfrom_web_contents"><span class="keyword">val</span> from_web_contents</span> : <code class="type">unit -> unit</code></pre>
+<pre><span id="VALfrom_id"><span class="keyword">val</span> from_id</span> : <code class="type">int -> <a href="Electron.Main.BrowserWindow.browser_window-c.html">browser_window</a></code></pre>
+<pre><span id="VALadd_dev_tools_extension"><span class="keyword">val</span> add_dev_tools_extension</span> : <code class="type">string -> unit</code></pre>
+<pre><span id="VALremove_dev_tools_extension"><span class="keyword">val</span> remove_dev_tools_extension</span> : <code class="type">string -> unit</code></pre>
+<pre><span id="VALget_dev_tools_extensions"><span class="keyword">val</span> get_dev_tools_extensions</span> : <code class="type">unit -> unit</code></pre></body></html>

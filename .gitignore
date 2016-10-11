@@ -6,4 +6,3 @@ lib/electron/renderer.ml
 lib/electron/renderer.mli
 lib/electron.ml
 lib/electron.mli
-electron.docdir

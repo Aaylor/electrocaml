@@ -27,6 +27,7 @@ all: clean-copy
 
 .PHONY: doc
 doc: clean-copy
+		rm -r docs/*
 		ocp-pack -mli -o lib/electron/main.ml lib/electron/main/*.ml
 		ocp-pack -mli -o lib/electron/renderer.ml lib/electron/renderer/*.ml
 		ocp-pack -mli -o lib/electron.ml.tmp lib/electron/*.ml
@@ -35,7 +36,12 @@ doc: clean-copy
 		mv lib/electron.ml.tmp lib/electron.ml
 		$(OCAMLBUILD) $(OCAMLBUILD_FLAG) $(FOLDERS_FLAG) -pkgs $(PACKAGES) \
 				$(LIB_NAME).docdir/index.html
-		rm -f lib/electron/main.ml[i] lib/electron/renderer.ml[i] lib/electron.ml[i]
+		rm $(LIB_NAME).docdir
+		mkdir -p docs
+		cp -r _build/$(LIB_NAME).docdir/* docs
+		rm -f lib/electron/main.{ml,mli} lib/electron/renderer.{ml,mli} \
+				lib/electron.{ml,mli}
+
 
 .PHONY: clean
 clean: clean-copy

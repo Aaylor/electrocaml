@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Electron.Main.App.app_dock-c.html">
+<link rel="Up" href="Electron.Main.App.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of class methods" rel=Appendix href="index_methods.html">
+<link title="Index of class types" rel=Appendix href="index_class_types.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Electron" rel="Chapter" href="Electron.html"><title>Electron.Main.App.app</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Electron.Main.App.app_dock-c.html" title="Electron.Main.App.app_dock">Previous</a>
+&nbsp;<a class="up" href="Electron.Main.App.html" title="Electron.Main.App">Up</a>
+&nbsp;</div>
+<h1>Class type <a href="type_Electron.Main.App.app.html">Electron.Main.App.app</a></h1>
+
+<pre><span id="TYPEapp"><span class="keyword">class type</span> app</span> = <code class="code">object</code> <a href="Electron.Main.App.app-c.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><span id="METHODon_accessibility_support_changed"><span class="keyword">method</span> on_accessibility_support_changed</span> : <code class="type">(<a href="Electron.Main.App.html#TYPEevent">event</a> -> bool Js.t -> unit) -> unit</code></pre>
+<pre><span id="METHODon_quit"><span class="keyword">method</span> on_quit</span> : <code class="type">(<a href="Electron.Main.App.html#TYPEevent">event</a> -> int Js.t -> unit) -> unit</code></pre>
+<pre><span id="METHODon_ready"><span class="keyword">method</span> on_ready</span> : <code class="type">(unit -> unit) -> unit</code></pre>
+<pre><span id="METHODon_will_finish_launching"><span class="keyword">method</span> on_will_finish_launching</span> : <code class="type">(unit -> unit) -> unit</code></pre>
+<pre><span id="METHODon_will_quit"><span class="keyword">method</span> on_will_quit</span> : <code class="type">(<a href="Electron.Main.App.html#TYPEevent">event</a> -> unit) -> unit</code></pre>
+<pre><span id="METHODon_window_all_closed"><span class="keyword">method</span> on_window_all_closed</span> : <code class="type">(unit -> unit) -> unit</code></pre>
+<pre><span id="METHODquit"><span class="keyword">method</span> quit</span> : <code class="type">unit -> unit</code></pre>
+<pre><span id="METHODexit"><span class="keyword">method</span> exit</span> : <code class="type">int option -> unit</code></pre>
+<pre><span id="METHODrelaunch"><span class="keyword">method</span> relaunch</span> : <code class="type">'a. 'a <a href="Electron.Main.App.html#TYPErelaunch_parameter">relaunch_parameter</a> -> unit</code></pre>
+<pre><span id="METHODis_ready"><span class="keyword">method</span> is_ready</span> : <code class="type">unit -> bool</code></pre>
+<pre><span id="METHODfocus"><span class="keyword">method</span> focus</span> : <code class="type">unit -> unit</code></pre>
+<pre><span id="METHODhide"><span class="keyword">method</span> hide</span> : <code class="type">unit -> unit</code></pre>
+<pre><span id="METHODshow"><span class="keyword">method</span> show</span> : <code class="type">unit -> unit</code></pre>
+<pre><span id="METHODget_app_path"><span class="keyword">method</span> get_app_path</span> : <code class="type">unit -> string</code></pre>
+<pre><span id="METHODget_path"><span class="keyword">method</span> get_path</span> : <code class="type"><a href="Electron.Main.App.html#TYPEpath_parameter">path_parameter</a> -> string</code></pre>
+<pre><span id="METHODset_path"><span class="keyword">method</span> set_path</span> : <code class="type"><a href="Electron.Main.App.html#TYPEpath_parameter">path_parameter</a> -> string -> unit</code></pre>
+<pre><span id="METHODget_version"><span class="keyword">method</span> get_version</span> : <code class="type">unit -> string</code></pre>
+<pre><span id="METHODget_name"><span class="keyword">method</span> get_name</span> : <code class="type">unit -> string</code></pre>
+<pre><span id="METHODset_name"><span class="keyword">method</span> set_name</span> : <code class="type">string -> unit</code></pre>
+<pre><span id="METHODget_locale"><span class="keyword">method</span> get_locale</span> : <code class="type">unit -> Locales.t</code></pre>
+<pre><span id="METHODadd_recent_document"><span class="keyword">method</span> add_recent_document</span> : <code class="type">string -> unit</code></pre>
+<pre><span id="METHODclear_recent_documents"><span class="keyword">method</span> clear_recent_documents</span> : <code class="type">unit -> unit</code></pre>
+<pre><span id="METHODset_as_default_protocol_client"><span class="keyword">method</span> set_as_default_protocol_client</span> : <code class="type">string -> string option -> string list option -> bool</code></pre>
+<pre><span id="METHODremove_as_default_protocol_client"><span class="keyword">method</span> remove_as_default_protocol_client</span> : <code class="type">string -> string option -> string list option -> bool</code></pre>
+<pre><span id="METHODis_default_protocol_client"><span class="keyword">method</span> is_default_protocol_client</span> : <code class="type">string -> string option -> string list option -> bool</code></pre>
+<pre><span id="METHODset_user_tasks"><span class="keyword">method</span> set_user_tasks</span> : <code class="type"><a href="Electron.Main.App.html#TYPEtask">task</a> list -> bool</code></pre>
+<pre><span id="METHODget_jump_list_settings"><span class="keyword">method</span> get_jump_list_settings</span> : <code class="type">unit</code></pre>
+<pre><span id="METHODset_jump_list"><span class="keyword">method</span> set_jump_list</span> : <code class="type">unit</code></pre>
+<pre><span id="METHODmake_single_instance"><span class="keyword">method</span> make_single_instance</span> : <code class="type">(Js.string_array -> Js.js_string -> unit) -> unit</code></pre>
+<pre><span id="METHODrelease_single_instance"><span class="keyword">method</span> release_single_instance</span> : <code class="type">unit -> unit</code></pre>
+<pre><span id="METHODset_user_activity"><span class="keyword">method</span> set_user_activity</span> : <code class="type">string -> (string * Js.Unsafe.any) array -> string option -> unit</code></pre>
+<pre><span id="METHODget_current_activity_type"><span class="keyword">method</span> get_current_activity_type</span> : <code class="type">unit -> string</code></pre>
+<pre><span id="METHODset_app_user_model_id"><span class="keyword">method</span> set_app_user_model_id</span> : <code class="type">string -> unit</code></pre>
+<pre><span id="METHODimport_certificate"><span class="keyword">method</span> import_certificate</span> : <code class="type">unit</code></pre>
+<pre><span id="METHODdisable_hardware_acceleration"><span class="keyword">method</span> disable_hardware_acceleration</span> : <code class="type">unit -> unit</code></pre>
+<pre><span id="METHODset_badge_count"><span class="keyword">method</span> set_badge_count</span> : <code class="type">int -> bool</code></pre>
+<pre><span id="METHODget_badge_count"><span class="keyword">method</span> get_badge_count</span> : <code class="type">unit -> int</code></pre>
+<pre><span id="METHODis_unity_running"><span class="keyword">method</span> is_unity_running</span> : <code class="type">unit -> bool</code></pre>
+<pre><span id="METHODget_login_item_settings"><span class="keyword">method</span> get_login_item_settings</span> : <code class="type">unit</code></pre>
+<pre><span id="METHODset_login_item_settings"><span class="keyword">method</span> set_login_item_settings</span> : <code class="type">unit</code></pre>
+<pre><span id="METHODis_accessibility_support_enabled"><span class="keyword">method</span> is_accessibility_support_enabled</span> : <code class="type">unit -> bool</code></pre>
+<pre><span id="METHODcommand_line"><span class="keyword">method</span> command_line</span> : <code class="type"><a href="Electron.Main.App.app_command_line-c.html">app_command_line</a></code></pre>
+<pre><span id="METHODdock"><span class="keyword">method</span> dock</span> : <code class="type"><a href="Electron.Main.App.app_dock-c.html">app_dock</a></code></pre></body></html>

@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="next" href="Electron.Main.BrowserWindow.html">
+<link rel="Up" href="Electron.Main.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of class methods" rel=Appendix href="index_methods.html">
+<link title="Index of class types" rel=Appendix href="index_class_types.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Electron" rel="Chapter" href="Electron.html"><title>Electron.Main.App</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="Electron.Main.html" title="Electron.Main">Up</a>
+&nbsp;<a class="post" href="Electron.Main.BrowserWindow.html" title="Electron.Main.BrowserWindow">Next</a>
+</div>
+<h1>Module <a href="type_Electron.Main.App.html">Electron.Main.App</a></h1>
+
+<pre><span class="keyword">module</span> App: <code class="code">sig</code> <a href="Electron.Main.App.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><span id="VALapp_module"><span class="keyword">val</span> app_module</span> : <code class="type">Util.instance</code></pre>
+<pre><span id="VALcommand_line_module"><span class="keyword">val</span> command_line_module</span> : <code class="type">Util.instance</code></pre>
+<pre><span id="VALdock_module"><span class="keyword">val</span> dock_module</span> : <code class="type">Util.instance</code></pre>
+<pre><span id="TYPEevent"><span class="keyword">type</span> <code class="type"></code>event</span> </pre>
+
+
+<pre><span id="TYPEcertificate"><span class="keyword">type</span> <code class="type"></code>certificate</span> </pre>
+
+
+<pre><code><span id="TYPErelaunch_parameter"><span class="keyword">type</span> <code class="type">'a</code> relaunch_parameter</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrelaunch_parameter.args">args</span>&nbsp;: <code class="type">'a array option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrelaunch_parameter.execPath">execPath</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><code><span id="TYPEpath_parameter"><span class="keyword">type</span> <code class="type"></code>path_parameter</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.Home"><span class="constructor">Home</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.AppData"><span class="constructor">AppData</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.UserData"><span class="constructor">UserData</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.Temp"><span class="constructor">Temp</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.Exe"><span class="constructor">Exe</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.Module"><span class="constructor">Module</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.Desktop"><span class="constructor">Desktop</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.Documents"><span class="constructor">Documents</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.Downloads"><span class="constructor">Downloads</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.Music"><span class="constructor">Music</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.Pictures"><span class="constructor">Pictures</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.Videos"><span class="constructor">Videos</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTpath_parameter.PepperFlashSystemPlugin"><span class="constructor">PepperFlashSystemPlugin</span></span></code></td>
+
+</tr></table>
+
+
+
+<pre><code><span id="TYPEbounce"><span class="keyword">type</span> <code class="type"></code>bounce</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbounce.Critical"><span class="constructor">Critical</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTbounce.Informational"><span class="constructor">Informational</span></span></code></td>
+
+</tr></table>
+
+
+
+<pre><code><span id="TYPEtask"><span class="keyword">type</span> <code class="type"></code>task</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtask.program">program</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtask.arguments">arguments</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtask.title">title</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtask.description">description</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtask.iconPath">iconPath</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtask.iconIndex">iconIndex</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><span id="TYPEapp_command_line"><span class="keyword">class type</span> <a href="Electron.Main.App.app_command_line-c.html">app_command_line</a></span> = <code class="code">object</code> <a href="Electron.Main.App.app_command_line-c.html">..</a> <code class="code">end</code></pre>
+<pre><span id="TYPEapp_dock"><span class="keyword">class type</span> <a href="Electron.Main.App.app_dock-c.html">app_dock</a></span> = <code class="code">object</code> <a href="Electron.Main.App.app_dock-c.html">..</a> <code class="code">end</code></pre>
+<pre><span id="TYPEapp"><span class="keyword">class type</span> <a href="Electron.Main.App.app-c.html">app</a></span> = <code class="code">object</code> <a href="Electron.Main.App.app-c.html">..</a> <code class="code">end</code></pre>
+<pre><span id="VALapp"><span class="keyword">val</span> app</span> : <code class="type"><a href="Electron.Main.App.app-c.html">app</a></code></pre></body></html>
