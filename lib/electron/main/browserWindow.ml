@@ -1,4 +1,5 @@
 
+open Common_type
 open Util
 
 let bw_module = electron##._BrowserWindow
@@ -32,38 +33,6 @@ let string_of_title_bar_style = function
   | Default -> "default"
   | Hidden -> "hidden"
   | Hidden_inset -> "hidden-inset"
-
-type size = {
-  width : int;
-  height : int;
-}
-
-let obj_of_size size =
-  Js.Unsafe.obj
-    [| "width", Js.Unsafe.inject size.width;
-       "height", Js.Unsafe.inject size.height |]
-
-type position = {
-  x : int;
-  y : int;
-}
-
-let obj_of_position position =
-  Js.Unsafe.obj
-    [| "x", Js.Unsafe.inject position.x;
-       "y", Js.Unsafe.inject position.y; |]
-
-type size_with_position = {
-  position : position;
-  size : size;
-}
-
-let obj_of_size_with_position swc =
-  Js.Unsafe.obj
-    [| ("x", Js.Unsafe.inject swc.position.x);
-       ("y", Js.Unsafe.inject swc.position.y);
-       ("width", Js.Unsafe.inject swc.size.width);
-       ("height", Js.Unsafe.inject swc.size.height) |]
 
 type top_level =
   | Normal
@@ -479,13 +448,7 @@ let rec make_bw_obj instance : browser_window =
 
     method private generic_get_bounds fname =
       let bounds = M.call fname no_param in
-      let read_int field : int = Js.Unsafe.get bounds field in
-      { position =
-          { x = read_int "x";
-            y = read_int "y"; };
-        size =
-          { width = read_int "width";
-            height = read_int "height"; }; }
+      size_with_position_of_obj bounds
 
     method set_bounds options ?animate =
       self#generic_set_bounds "setBounds" options animate
@@ -579,8 +542,7 @@ let rec make_bw_obj instance : browser_window =
         optional_param level
           (fun s -> string_param (string_of_top_level s))
       in
-      M.call "setAlwaysOnTop"
-        (Array.append [| Js.Unsafe.inject (Js.bool flag) |] level)
+      M.call "setAlwaysOnTop" (Array.append [| bool_param flag |] level)
 
     method is_always_on_top () =
       M.unit_bool "isAlwaysOnTop"
@@ -611,8 +573,7 @@ let rec make_bw_obj instance : browser_window =
 
     method set_sheet_offset offset_y ?offset_x =
       let offset_x = optional_param offset_x float_param in
-      M.call "setSheetOffset"
-        (Array.append [| Js.Unsafe.inject (Js.float offset_y) |] offset_x)
+      M.call "setSheetOffset" (Array.append [| float_param offset_y |] offset_x)
 
     method flash_frame flag =
       M.bool_unit "flashFrame" flag

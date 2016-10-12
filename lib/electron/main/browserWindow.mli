@@ -1,5 +1,7 @@
 (** Implementation of the BrowserWindow module. *)
 
+open Common_type
+
 (** {2 Module} *)
 
 val bw_module : 'a
@@ -19,21 +21,6 @@ type title_bar_style_t =
   | Default
   | Hidden
   | Hidden_inset
-
-type size = {
-  width : int;
-  height : int;
-}
-
-type position = {
-  x : int;
-  y : int;
-}
-
-type size_with_position = {
-  position : position;
-  size : size;
-}
 
 type top_level =
   | Normal
