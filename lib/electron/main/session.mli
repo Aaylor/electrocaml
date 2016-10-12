@@ -46,3 +46,5 @@ end
 val default_session : unit -> session
 
 val from_partition : ?cache:bool -> string -> session
+
+val make_session_obj : Util.instance -> session
