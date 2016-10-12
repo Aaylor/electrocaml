@@ -3,3 +3,4 @@ main/App
 main/BrowserWindow
 main/Locales
 main/Session
+main/WebContents

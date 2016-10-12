@@ -1,7 +1,9 @@
 electron/Clipboard
+electron/Common_type
 electron/CrashReporter
 electron/Main
 electron/NativeImage
+electron/Screen
 electron/Shell
 electron/Util
 electron/Renderer
