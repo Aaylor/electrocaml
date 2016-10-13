@@ -54,6 +54,8 @@ val string_of_key_code : key_code -> string
 val key_code_of_string : string -> key_code
 
 
-(** {2 Helper Function} *)
+(** {2 Accelerator} *)
 
-val make_accelerator : modifiers list -> key_code list -> string
+type accelerator = modifiers list * key_code list
+
+val make_accelerator : accelerator -> string

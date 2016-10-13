@@ -137,7 +137,9 @@ let key_code_of_string = function
       | _ as c -> Punc c
     else error ()
 
-let make_accelerator modifiers key_codes =
+type accelerator = modifiers list * key_code list
+
+let make_accelerator (modifiers, key_codes) =
   let modifiers = List.map string_of_modifiers modifiers in
   let key_codes = List.map string_of_key_code key_codes in
   let rec make_string buffer = function
