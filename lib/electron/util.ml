@@ -26,6 +26,8 @@ module Console = struct
   let log str =
     Js.Unsafe.meth_call
       console "log" [| Js.Unsafe.inject (Js.string str) |]
+  let log_any elt =
+    Js.Unsafe.meth_call console "log" [| Js.Unsafe.inject elt |]
 end
 
 
