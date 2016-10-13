@@ -16,6 +16,7 @@ end
 
 module Console : sig
   val log : string -> unit
+  val log_any : 'a -> unit
 end
 
 val string_param : string -> Js.Unsafe.any

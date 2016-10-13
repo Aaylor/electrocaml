@@ -129,7 +129,7 @@ class type browser_window = object
   method capture_page : ?rect:size_with_position -> (unit -> unit) -> unit
   method load_url : string -> unit
   method reload : unit -> unit
-  method set_menu : unit -> unit (* TODO: Main.Menu *)
+  method set_menu : Menu.menu -> unit
   method set_progress_bar : unit -> unit (* TODO: Double ? *)
   method set_overlay_icon : unit -> unit (* TODO: Both.NativeImage *)
   method set_has_shadow : bool -> unit
@@ -633,7 +633,9 @@ let rec make_bw_obj instance : browser_window =
     method reload () =
       M.unit_unit "reload"
 
-    method set_menu () (* menu *) = ()
+    method set_menu menu =
+      Util.Console.log "set_menu";
+      M.call "setMenu" [| Js.Unsafe.inject menu#instance |]
 
     method set_progress_bar () (* progress options *) = ()
 
