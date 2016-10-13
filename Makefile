@@ -12,7 +12,7 @@ WARNING_FLAGS = -w @1..3@5..8@10..26@28..31+32..38@39..43@46..49+50
 PACKAGES = js_of_ocaml,js_of_ocaml.ppx
 
 # COMMANDS
-OCAMLC_COMMAND = -ocamlc 'ocamlc -annot'
+OCAMLC_COMMAND = -ocamlc 'ocamlc -annot -g'
 OCAMLBUILD_FLAG	= -use-ocamlfind
 
 .PHONY: all
