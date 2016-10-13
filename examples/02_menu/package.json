@@ -1,0 +1,14 @@
+{
+    "name": "02_menu",
+    "version": "0.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "author": "Loïc Runarvot",
+    "license": "MIT",
+    "devDependencies": {
+        "electron": "~1.4.1"
+    }
+}
