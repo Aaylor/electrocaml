@@ -45,7 +45,7 @@
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;on_will_quit&nbsp;:&nbsp;(<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">App</span>.event&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;on_window_all_closed&nbsp;:&nbsp;(unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;quit&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;relaunch&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">App</span>.relaunch_parameter&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;relaunch&nbsp;:&nbsp;?args:<span class="keywordsign">'</span>a&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?exec_path:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;release_single_instance&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;remove_as_default_protocol_client&nbsp;:
 &nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;list&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool

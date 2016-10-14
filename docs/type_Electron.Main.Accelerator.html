@@ -54,7 +54,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PrintScreen</span>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;string_of_key_code&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Accelerator</span>.key_code&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;key_code_of_string&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Accelerator</span>.key_code
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make_accelerator&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Accelerator</span>.modifiers&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Accelerator</span>.key_code&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;accelerator&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Accelerator</span>.modifiers&nbsp;list&nbsp;*
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Accelerator</span>.key_code&nbsp;list
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make_accelerator&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Accelerator</span>.accelerator&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string
 <span class="keyword">end</span></code></body></html>

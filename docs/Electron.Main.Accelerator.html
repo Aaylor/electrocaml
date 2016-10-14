@@ -14,7 +14,7 @@
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Electron" rel="Chapter" href="Electron.html"><link title="Modifiers" rel="Section" href="#2_Modifiers">
 <link title="Key codes" rel="Section" href="#2_Keycodes">
-<link title="Helper Function" rel="Section" href="#2_HelperFunction">
+<link title="Accelerator" rel="Section" href="#2_Accelerator">
 <title>Electron.Main.Accelerator</title>
 </head>
 <body>
@@ -295,6 +295,9 @@ Implementation of Accelerator<br>
 
 <pre><span id="VALstring_of_key_code"><span class="keyword">val</span> string_of_key_code</span> : <code class="type"><a href="Electron.Main.Accelerator.html#TYPEkey_code">key_code</a> -> string</code></pre>
 <pre><span id="VALkey_code_of_string"><span class="keyword">val</span> key_code_of_string</span> : <code class="type">string -> <a href="Electron.Main.Accelerator.html#TYPEkey_code">key_code</a></code></pre><br>
-<h2 id="2_HelperFunction">Helper Function</h2><br>
+<h2 id="2_Accelerator">Accelerator</h2><br>
 
-<pre><span id="VALmake_accelerator"><span class="keyword">val</span> make_accelerator</span> : <code class="type"><a href="Electron.Main.Accelerator.html#TYPEmodifiers">modifiers</a> list -><br>       <a href="Electron.Main.Accelerator.html#TYPEkey_code">key_code</a> list -> string</code></pre></body></html>
+<pre><span id="TYPEaccelerator"><span class="keyword">type</span> <code class="type"></code>accelerator</span> = <code class="type"><a href="Electron.Main.Accelerator.html#TYPEmodifiers">modifiers</a> list *<br>       <a href="Electron.Main.Accelerator.html#TYPEkey_code">key_code</a> list</code> </pre>
+
+
+<pre><span id="VALmake_accelerator"><span class="keyword">val</span> make_accelerator</span> : <code class="type"><a href="Electron.Main.Accelerator.html#TYPEaccelerator">accelerator</a> -> string</code></pre></body></html>

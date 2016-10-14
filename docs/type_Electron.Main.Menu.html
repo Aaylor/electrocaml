@@ -1,0 +1,84 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of class methods" rel=Appendix href="index_methods.html">
+<link title="Index of class types" rel=Appendix href="index_class_types.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Electron" rel="Chapter" href="Electron.html"><title>Electron.Main.Menu</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;menu_module&nbsp;:&nbsp;<span class="constructor">Util</span>.instance
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;menu_item_module&nbsp;:&nbsp;<span class="constructor">Util</span>.instance
+&nbsp;&nbsp;<span class="keyword">class</span>&nbsp;<span class="keyword">type</span>&nbsp;menu&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">object</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;append&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu_item&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;insert&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu_item&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;instance&nbsp;:&nbsp;<span class="constructor">Util</span>.instance
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;items&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu_item&nbsp;list
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;popup&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">end</span>
+&nbsp;&nbsp;<span class="keyword">and</span>&nbsp;menu_item&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">object</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;checked&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;enabled&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;instance&nbsp;:&nbsp;<span class="constructor">Util</span>.instance
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_checked&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_enabled&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_visible&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;visible&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">end</span>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make_menu&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_application_menu&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_application_menu&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu&nbsp;option
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;send_action_to_first_responder&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;build_from_template&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu_item&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;menu_item_type&nbsp;=&nbsp;<span class="constructor">Normal</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Separator</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Submenu</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Checkbox</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Radio</span>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;role&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Undo</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Redo</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Cut</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Copy</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Paste</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Pasteandmatchstyle</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Selectall</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Delete</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Minimize</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Close</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Quit</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Togglefullscreen</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Resetzoom</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Zoomin</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Zoomout</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">About</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Hide</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Hideothers</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Unhide</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Startspeaking</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Stopspeaking</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Front</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Zoom</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Window</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Help</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Services</span>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make_menu_item&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?click:(unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?role:<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.role&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?type_:<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu_item_type&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?label:string&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?sublabel:string&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?accelerator:<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Accelerator</span>.accelerator&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?icon:unit&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?enabled:bool&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?visible:bool&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?checked:bool&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?submenu:<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?id:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?position:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu_item
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;separator&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu_item
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;basic_apple_menu_item&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">Menu</span>.menu_item
+<span class="keyword">end</span></code></body></html>

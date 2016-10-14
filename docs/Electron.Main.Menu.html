@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Electron.Main.Locales.html">
+<link rel="next" href="Electron.Main.Session.html">
+<link rel="Up" href="Electron.Main.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of class methods" rel=Appendix href="index_methods.html">
+<link title="Index of class types" rel=Appendix href="index_class_types.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Electron" rel="Chapter" href="Electron.html"><link title="Menu and MenuItem classes" rel="Section" href="#2_MenuandMenuItemclasses">
+<link title="Menu methods" rel="Section" href="#2_Menumethods">
+<link title="MenuItem methods" rel="Section" href="#2_MenuItemmethods">
+<link title="Prebuilt menu item" rel="Section" href="#2_Prebuiltmenuitem">
+<title>Electron.Main.Menu</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Electron.Main.Locales.html" title="Electron.Main.Locales">Previous</a>
+&nbsp;<a class="up" href="Electron.Main.html" title="Electron.Main">Up</a>
+&nbsp;<a class="post" href="Electron.Main.Session.html" title="Electron.Main.Session">Next</a>
+</div>
+<h1>Module <a href="type_Electron.Main.Menu.html">Electron.Main.Menu</a></h1>
+
+<pre><span class="keyword">module</span> Menu: <code class="code">sig</code> <a href="Electron.Main.Menu.html">..</a> <code class="code">end</code></pre><hr width="100%">
+<br>
+Implementation of Menu and MenuItem classes.<br>
+
+<pre><span id="VALmenu_module"><span class="keyword">val</span> menu_module</span> : <code class="type">Util.instance</code></pre>
+<pre><span id="VALmenu_item_module"><span class="keyword">val</span> menu_item_module</span> : <code class="type">Util.instance</code></pre><br>
+<h2 id="2_MenuandMenuItemclasses">Menu and MenuItem classes</h2><br>
+
+<pre><span id="TYPEmenu"><span class="keyword">class type</span> <a href="Electron.Main.Menu.menu-c.html">menu</a></span> = <code class="code">object</code> <a href="Electron.Main.Menu.menu-c.html">..</a> <code class="code">end</code></pre>
+<pre><span id="TYPEmenu_item"><span class="keyword">class type</span> <a href="Electron.Main.Menu.menu_item-c.html">menu_item</a></span> = <code class="code">object</code> <a href="Electron.Main.Menu.menu_item-c.html">..</a> <code class="code">end</code></pre><br>
+<h2 id="2_Menumethods">Menu methods</h2><br>
+
+<pre><span id="VALmake_menu"><span class="keyword">val</span> make_menu</span> : <code class="type">unit -> <a href="Electron.Main.Menu.menu-c.html">menu</a></code></pre>
+<pre><span id="VALset_application_menu"><span class="keyword">val</span> set_application_menu</span> : <code class="type"><a href="Electron.Main.Menu.menu-c.html">menu</a> -> unit</code></pre>
+<pre><span id="VALget_application_menu"><span class="keyword">val</span> get_application_menu</span> : <code class="type">unit -> <a href="Electron.Main.Menu.menu-c.html">menu</a> option</code></pre>
+<pre><span id="VALsend_action_to_first_responder"><span class="keyword">val</span> send_action_to_first_responder</span> : <code class="type">string -> unit</code></pre>
+<pre><span id="VALbuild_from_template"><span class="keyword">val</span> build_from_template</span> : <code class="type"><a href="Electron.Main.Menu.menu_item-c.html">menu_item</a> list -> <a href="Electron.Main.Menu.menu-c.html">menu</a></code></pre><br>
+<h2 id="2_MenuItemmethods">MenuItem methods</h2><br>
+
+<pre><code><span id="TYPEmenu_item_type"><span class="keyword">type</span> <code class="type"></code>menu_item_type</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmenu_item_type.Normal"><span class="constructor">Normal</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmenu_item_type.Separator"><span class="constructor">Separator</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmenu_item_type.Submenu"><span class="constructor">Submenu</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmenu_item_type.Checkbox"><span class="constructor">Checkbox</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmenu_item_type.Radio"><span class="constructor">Radio</span></span></code></td>
+
+</tr></table>
+
+
+
+<pre><code><span id="TYPErole"><span class="keyword">type</span> <code class="type"></code>role</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Undo"><span class="constructor">Undo</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Redo"><span class="constructor">Redo</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Cut"><span class="constructor">Cut</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Copy"><span class="constructor">Copy</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Paste"><span class="constructor">Paste</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Pasteandmatchstyle"><span class="constructor">Pasteandmatchstyle</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Selectall"><span class="constructor">Selectall</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Delete"><span class="constructor">Delete</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Minimize"><span class="constructor">Minimize</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Close"><span class="constructor">Close</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Quit"><span class="constructor">Quit</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Togglefullscreen"><span class="constructor">Togglefullscreen</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Resetzoom"><span class="constructor">Resetzoom</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Zoomin"><span class="constructor">Zoomin</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Zoomout"><span class="constructor">Zoomout</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.About"><span class="constructor">About</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Hide"><span class="constructor">Hide</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Hideothers"><span class="constructor">Hideothers</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Unhide"><span class="constructor">Unhide</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Startspeaking"><span class="constructor">Startspeaking</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Stopspeaking"><span class="constructor">Stopspeaking</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Front"><span class="constructor">Front</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Zoom"><span class="constructor">Zoom</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Window"><span class="constructor">Window</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Help"><span class="constructor">Help</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrole.Services"><span class="constructor">Services</span></span></code></td>
+
+</tr></table>
+
+
+
+<pre><span id="VALmake_menu_item"><span class="keyword">val</span> make_menu_item</span> : <code class="type">?click:(unit -> unit -> unit) -><br>       ?role:<a href="Electron.Main.Menu.html#TYPErole">role</a> -><br>       ?type_:<a href="Electron.Main.Menu.html#TYPEmenu_item_type">menu_item_type</a> -><br>       ?label:string -><br>       ?sublabel:string -><br>       ?accelerator:<a href="Electron.Main.Accelerator.html#TYPEaccelerator">Electron.Main.Accelerator.accelerator</a> -><br>       ?icon:unit -><br>       ?enabled:bool -><br>       ?visible:bool -><br>       ?checked:bool -><br>       ?submenu:<a href="Electron.Main.Menu.menu-c.html">menu</a> -><br>       ?id:string -> ?position:string -> unit -> <a href="Electron.Main.Menu.menu_item-c.html">menu_item</a></code></pre><br>
+<h2 id="2_Prebuiltmenuitem">Prebuilt menu item</h2><br>
+
+<pre><span id="VALseparator"><span class="keyword">val</span> separator</span> : <code class="type"><a href="Electron.Main.Menu.menu_item-c.html">menu_item</a></code></pre>
+<pre><span id="VALbasic_apple_menu_item"><span class="keyword">val</span> basic_apple_menu_item</span> : <code class="type">unit -> <a href="Electron.Main.Menu.menu_item-c.html">menu_item</a></code></pre></body></html>

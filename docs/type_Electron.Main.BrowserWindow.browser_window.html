@@ -15,28 +15,26 @@
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;blur&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;blur_web_view&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;capture_page&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?rect:<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size_with_position&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;(unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;?rect:<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size_with_position&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;center&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;close&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;destroy&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;flash_frame&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;focus&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;focus_on_web_view&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_bounds&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size_with_position
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_bounds&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size_with_position
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_child_windows&nbsp;:
 &nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.browser_window&nbsp;list
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_content_bounds&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size_with_position
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_content_size&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_maximum_size&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_minimum_size&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_content_bounds&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size_with_position
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_content_size&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_maximum_size&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_minimum_size&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_native_window_handle&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_parent_window&nbsp;:
 &nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.browser_window
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_position&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.position
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_position&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.position
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_represented_filename&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_size&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_size&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_title&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;has_shadow&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;hide&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
@@ -71,16 +69,16 @@
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_always_on_top&nbsp;:
 &nbsp;&nbsp;&nbsp;&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?level:<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.top_level&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_aspect_ratio&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?extra_size:<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?extra_size:<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_auto_hide_menu_bar&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_bounds&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size_with_position&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?animate:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size_with_position&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?animate:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_closable&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_content_bounds&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size_with_position&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?animate:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size_with_position&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?animate:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_content_protection&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_content_size&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?animate:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?animate:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_document_edited&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_focusable&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_full_screen&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
@@ -90,26 +88,25 @@
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_ignore_mouse_events&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_kiosk&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_maximizable&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_maximum_size&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_menu&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_maximum_size&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_menu&nbsp;:&nbsp;<span class="constructor">Menu</span>.menu&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_menu_bar_visibility&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_minimizable&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_minimum_size&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_minimum_size&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_movable&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_overlay_icon&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_parent_window&nbsp;:
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.browser_window&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_position&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.position&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?animate:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.position&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?animate:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_progress_bar&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_represented_filename&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_resizable&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_sheet_offset&nbsp;:&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?offset_x:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_size&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?animate:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_size&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?animate:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_skip_taskbar&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_thumbar_buttons&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_thumbnail_clip&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Main</span>.<span class="constructor">BrowserWindow</span>.size_with_position&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_thumbnail_clip&nbsp;:&nbsp;<span class="constructor">Electron</span>.<span class="constructor">Common_type</span>.size_with_position&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_thumbnail_tool_tip&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_title&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">method</span>&nbsp;set_visible_on_all_workspaces&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
