@@ -52,3 +52,35 @@ module type INSTANCE = sig
 end
 
 module Methods (I : INSTANCE) : METHODS
+
+
+module ObjBuilder : sig
+
+  val push :
+    (string * ('a -> Js.Unsafe.any) * 'a option) ->
+    (string * Js.Unsafe.any) list ->
+    (string * Js.Unsafe.any) list
+
+  val push_string :
+    (string * string option) -> (string * Js.Unsafe.any) list ->
+    (string * Js.Unsafe.any) list
+
+  val push_bool :
+    (string * bool option) -> (string * Js.Unsafe.any) list ->
+    (string * Js.Unsafe.any) list
+
+  val push_instance :
+    (string * < instance : instance; ..> option) ->
+    (string * Js.Unsafe.any) list ->
+    (string * Js.Unsafe.any) list
+
+  val push_callback :
+    (string * ('a -> 'b) option) -> (string * Js.Unsafe.any) list ->
+    (string * Js.Unsafe.any) list
+
+  val push_datatype :
+    (string * 'a option * ('a -> string)) ->
+    (string * Js.Unsafe.any) list ->
+    (string * Js.Unsafe.any) list
+
+end

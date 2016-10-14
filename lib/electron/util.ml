@@ -81,3 +81,25 @@ module Methods (I : INSTANCE) : METHODS = struct
   let string_unit fname s = any_unit fname s string_param
   let callback_unit fname callback = any_unit fname callback callback_param
 end
+
+
+module ObjBuilder = struct
+
+  let push (key, translate, elt) acc = match elt with
+    | None -> acc
+    | Some elt -> (key, translate elt) :: acc
+
+  let push_string (key, elt) acc = push (key, string_param, elt) acc 
+
+  let push_bool (key, elt) acc = push (key, bool_param, elt) acc
+
+  let push_instance (key, elt) acc =
+    push (key, (fun s -> Js.Unsafe.inject s#instance), elt) acc
+
+  let push_callback (key, elt) acc = push (key, callback_param, elt) acc
+
+  let push_datatype  (key, elt, mk) acc = match elt with
+    | None -> acc
+    | Some elt -> (key, string_param (mk elt)) :: acc
+
+end
