@@ -7,10 +7,6 @@ type event
 
 type certificate
 
-type 'a relaunch_parameter =
-  { args : 'a array option;
-    execPath : string option; }
-
 type path_parameter =
   | Home
   | AppData
@@ -83,7 +79,7 @@ class type app = object
   method on_window_all_closed : (unit -> unit) -> unit
   method quit : unit -> unit
   method exit : int option -> unit
-  method relaunch : 'a. 'a relaunch_parameter -> unit
+  method relaunch : 'a. ?args:'a list -> ?exec_path:string -> unit -> unit
   method is_ready : unit -> bool
   method focus : unit -> unit
   method hide : unit -> unit

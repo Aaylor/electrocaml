@@ -130,83 +130,39 @@ class type browser_window = object
   method get_child_windows : unit -> browser_window list
 end
 
-type web_preferences_t = {
-  dev_tools : bool option;
-  node_integration : bool option;
-  preload : string option;
-  session : Session.session option;
-  partition : string option;
-  zoom_factor : float option;
-  javascript : bool option;
-  web_security : bool option;
-  allow_displaying_insecure_content : bool option;
-  allow_running_insecure_content : bool option;
-  images : bool option;
-  text_areas_are_resizable : bool option;
-  webgl : bool option;
-  webaudio : bool option;
-  plugins : bool option;
-  experimental_features : bool option;
-  experimental_canvas_features : bool option;
-  scroll_bounce : bool option;
-  blink_features : string option;
-  disable_blink_features : string option;
-  default_font_family : unit option;   (* TODO: Font Object *)
-  default_font_size : int option;
-  default_monospace_font_size : int option;
-  default_encoding : string option;
-  background_throttling : bool option;
-  offscreen : bool option;
-}
-
-type browser_window_option = {
-  width : int option;
-  height : int option;
-  x_y : (int * int) option;
-  use_content_size : bool option;
-  center : bool option;
-  min_width : int option;
-  min_height : int option;
-  max_width : int option;
-  max_height : int option;
-  resizable : bool option;
-  movable : bool option;
-  minimizable : bool option;
-  maximizable : bool option;
-  closable : bool option;
-  focusable : bool option;
-  always_on_top : bool option;
-  fullscreen : bool option;
-  fullscreenable : bool option;
-  skip_taskbar : bool option;
-  kioks : bool option;
-  title : string option;
-  show : bool option;
-  frame : bool option;
-  parent : browser_window option;
-  modal : bool option;
-  accept_first_mouse : bool option;
-  disable_auto_hide_cursor : bool option;
-  auto_hide_menu_bar : bool option;
-  enable_larger_than_screen : bool option;
-  background_color : string option;
-  has_shadow : bool option;
-  dark_theme : bool option;
-  transparent : bool option;
-  type_ : windows_t option;
-  title_bar_style : title_bar_style_t option;
-  thick_frame : bool option;
-  web_preferences : web_preferences_t option;
-}
-
 
 (** {2 Static Method} *)
 
-val default_web_preferences : web_preferences_t
+type web_preferences_t
 
-val default_browser_windows_option : browser_window_option
+val make_web_preferences :
+  ?dev_tools:bool -> ?node_integration:bool -> ?preload:string ->
+  ?session:Session.session -> ?partition:string -> ?zoom_factor:float ->
+  ?javascript:bool -> ?web_security:bool ->
+  ?allow_displaying_insecure_content:bool ->
+  ?allow_running_insecure_content:bool -> ?images:bool ->
+  ?text_areas_are_resizable:bool -> ?webgl:bool -> ?webaudio:bool ->
+  ?plugins:bool -> ?experimental_features:bool ->
+  ?experimental_canvas_features:bool -> ?scroll_bounce:bool ->
+  ?blink_features:string -> ?disable_blink_features:string ->
+  ?default_font_family:unit -> ?default_font_size:int ->
+  ?default_monospace_font_size:int -> ?default_encoding:string ->
+  ?background_throttling:bool -> ?offscreen:bool -> unit -> web_preferences_t
 
-val make : browser_window_option -> browser_window
+val make :
+  ?width:int -> ?height:int -> ?x_y:(int * int) -> ?use_content_size:bool ->
+  ?center:bool -> ?min_width:int -> ?min_height:int -> ?max_width:int ->
+  ?max_height:int -> ?resizable:bool -> ?movable:bool -> ?minimizable:bool ->
+  ?maximizable:bool -> ?closable:bool -> ?focusable:bool ->
+  ?always_on_top:bool -> ?fullscreen:bool -> ?fullscreenable:bool ->
+  ?skip_taskbar:bool -> ?kioks:bool -> ?title:string -> ?show:bool ->
+  ?frame:bool -> ?parent:browser_window -> ?modal:bool ->
+  ?accept_first_mouse:bool -> ?disable_auto_hide_cursor:bool ->
+  ?auto_hide_menu_bar:bool -> ?enable_larger_than_screen:bool ->
+  ?background_color:string -> ?has_shadow:bool -> ?dark_theme:bool ->
+  ?transparent:bool -> ?type_:windows_t -> ?title_bar_style:title_bar_style_t ->
+  ?thick_frame:bool -> ?web_preferences:web_preferences_t -> unit ->
+  browser_window
 
 val get_all_windows : unit -> browser_window list
 

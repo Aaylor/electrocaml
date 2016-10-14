@@ -36,7 +36,7 @@ let int_param i = Js.Unsafe.inject i
 let float_param f = Js.Unsafe.inject (Js.float f)
 let bool_param b = Js.Unsafe.inject (Js.bool b)
 let list_param l = Js.Unsafe.inject (Js.array (Array.of_list l))
-let instance_param i = Js.Unsafe.inject i
+let instance_param i = Js.Unsafe.inject i#instance
 let callback_param cb = Js.Unsafe.(inject (meth_callback cb))
 let obj_param p = Js.Unsafe.(inject (obj p))
 let optional_param o t = match o with
@@ -85,13 +85,22 @@ end
 
 module ObjBuilder = struct
 
+  type 'a push_fun =
+    (string * 'a option) ->
+    (string * Js.Unsafe.any) list ->
+    (string * Js.Unsafe.any) list
+
   let push (key, translate, elt) acc = match elt with
     | None -> acc
     | Some elt -> (key, translate elt) :: acc
 
-  let push_string (key, elt) acc = push (key, string_param, elt) acc 
+  let push_string (key, elt) acc = push (key, string_param, elt) acc
 
   let push_bool (key, elt) acc = push (key, bool_param, elt) acc
+
+  let push_int (key, elt) acc = push (key, int_param, elt) acc
+
+  let push_float (key, elt) acc = push (key, float_param, elt) acc
 
   let push_instance (key, elt) acc =
     push (key, (fun s -> Js.Unsafe.inject s#instance), elt) acc

@@ -1,6 +1,10 @@
+(** Implementation of Menu and MenuItem classes. *)
 
 val menu_module : Util.instance
 val menu_item_module : Util.instance
+
+
+(** {2 Menu and MenuItem classes} *)
 
 class type menu = object
   method instance : Util.instance
@@ -19,6 +23,9 @@ and menu_item = object
   method set_checked : bool -> unit
 end
 
+
+(** {2 Menu methods} *)
+
 val make_menu : unit -> menu
 
 val set_application_menu : menu -> unit
@@ -30,6 +37,7 @@ val send_action_to_first_responder : string -> unit
 val build_from_template : menu_item list -> menu
 
 
+(** {2 MenuItem methods} *)
 
 type menu_item_type =
   | Normal
@@ -66,24 +74,13 @@ type role =
   | Help
   | Services
 
-type menu_item_options =
-  { click : (unit -> unit -> unit) option; (* TODO *)
-    role : role option;
-    type_ : menu_item_type option;
-    label : string option;
-    sublabel : string option;
-    accelerator : Accelerator.accelerator option;
-    icon : unit option;         (* TODO *)
-    enabled : bool option;
-    visible : bool option;
-    checked : bool option;
-    submenu : menu option;
-    id : string option;
-    position : string option }
-
-val default_menu_item_options : menu_item_options
-
-val make_menu_item : menu_item_options -> menu_item
+val make_menu_item :
+  ?click:(unit -> unit -> unit) (* TODO *) ->
+  ?role:role -> ?type_:menu_item_type -> ?label:string -> ?sublabel:string ->
+  ?accelerator:Accelerator.accelerator ->
+  ?icon:unit ->                 (* TODO *)
+  ?enabled:bool -> ?visible:bool -> ?checked:bool -> ?submenu:menu ->
+  ?id:string -> ?position:string -> unit -> menu_item
 
 
 (** {2 Prebuilt menu item} *)

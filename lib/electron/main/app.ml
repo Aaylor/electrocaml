@@ -9,11 +9,6 @@ type event (* TODO *)
 
 type certificate (* TODO *)
 
-type 'a relaunch_parameter = {
-  args : 'a array option;
-  execPath : string option;
-}
-
 type path_parameter =
   | Home
   | AppData
@@ -115,7 +110,7 @@ class type app = object
   method on_window_all_closed : (unit -> unit) -> unit
   method quit : unit -> unit
   method exit : int option -> unit
-  method relaunch : 'a. 'a relaunch_parameter -> unit
+  method relaunch : 'a. ?args:'a list -> ?exec_path:string -> unit -> unit
   method is_ready : unit -> bool
   method focus : unit -> unit
   method hide : unit -> unit
@@ -215,21 +210,13 @@ let app : app =
     method exit return_code =
       M.call "exit" (optional_param return_code int_param)
 
-    method relaunch : type a. a relaunch_parameter -> unit = fun opt ->
-      let param =
-        let push (string, elt) t acc = match elt with
-          | None -> acc
-          | Some elt -> (string, Js.Unsafe.inject (t elt)) :: acc
+    method relaunch : 'a. ?args:'a list -> ?exec_path:string -> unit -> unit =
+      fun ?args ?exec_path () ->
+        let obj =
+          Util.ObjBuilder.push ("args", list_param, args) @@
+          Util.ObjBuilder.push_string ("execPath", exec_path) []
         in
-        let params =
-          push ("execPath", opt.execPath) string_param @@
-          push ("args", opt.args) Js.array []
-        in
-        match params with
-        | [] -> no_param
-        | xs -> [| Js.Unsafe.inject (Js.Unsafe.obj (Array.of_list params)) |]
-      in
-      M.call "relaunch" param
+        M.call "relaunch" [| obj_param (Array.of_list obj) |]
 
     method is_ready () =
       M.unit_bool "isReady"

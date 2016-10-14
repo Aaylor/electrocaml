@@ -153,209 +153,6 @@ class type browser_window = object
   method get_child_windows : unit -> browser_window list
 end
 
-type web_preferences_t = {
-  dev_tools : bool option;
-  node_integration : bool option;
-  preload : string option;
-  session : Session.session option;
-  partition : string option;
-  zoom_factor : float option;
-  javascript : bool option;
-  web_security : bool option;
-  allow_displaying_insecure_content : bool option;
-  allow_running_insecure_content : bool option;
-  images : bool option;
-  text_areas_are_resizable : bool option;
-  webgl : bool option;
-  webaudio : bool option;
-  plugins : bool option;
-  experimental_features : bool option;
-  experimental_canvas_features : bool option;
-  scroll_bounce : bool option;
-  blink_features : string option;
-  disable_blink_features : string option;
-  default_font_family : unit option;   (* TODO: Font Object *)
-  default_font_size : int option;
-  default_monospace_font_size : int option;
-  default_encoding : string option;
-  background_throttling : bool option;
-  offscreen : bool option;
-}
-
-let default_web_preferences =
-  { dev_tools = None; node_integration = None; preload = None; session = None;
-    partition = None; zoom_factor = None; javascript = None;
-    web_security = None; allow_displaying_insecure_content = None;
-    allow_running_insecure_content = None; images = None;
-    text_areas_are_resizable = None; webgl = None; webaudio = None;
-    plugins = None; experimental_features = None;
-    experimental_canvas_features = None; scroll_bounce = None;
-    blink_features = None; disable_blink_features = None;
-    default_font_family = None; default_font_size = None;
-    default_monospace_font_size = None; default_encoding = None;
-    background_throttling = None; offscreen = None; }
-
-let obj_of_web_pref wp =
-  let push (key, translate, elt) acc = match elt with
-    | None -> acc
-    | Some elt -> (key, Js.Unsafe.inject (translate elt)) :: acc
-  in
-  let push_string (key, elt) acc = push (key, Js.string, elt) acc in
-  let push_bool (key, elt) acc = push (key, Js.bool, elt) acc in
-  let push_float (key, elt) acc = push (key, Js.float, elt) acc in
-  let push_int (key, elt) acc = push (key, (fun x -> x), elt) acc in
-  let push_s (key, elt) acc = push (key, (fun s -> s#instance), elt) acc in
-  let obj =
-    push_bool ("devTools", wp.dev_tools) @@
-    push_bool ("nodeIntegration", wp.node_integration) @@
-    push_string ("preload", wp.preload) @@
-    push_s ("session", wp.session) @@
-    push_string ("partition", wp.partition) @@
-    push_float ("zoomFactor", wp.zoom_factor) @@
-    push_bool ("javascript", wp.javascript) @@
-    push_bool ("webSecurity", wp.web_security) @@
-    push_bool ("allowDisplayingInsecureContent",
-      wp.allow_displaying_insecure_content) @@
-    push_bool ("allowRunningInsecureContent",
-      wp.allow_running_insecure_content) @@
-    push_bool ("images", wp.images) @@
-    push_bool ("textAreasAreResizable", wp.text_areas_are_resizable) @@
-    push_bool ("webgl", wp.webgl) @@
-    push_bool ("webaudio", wp.webaudio) @@
-    push_bool ("plugins", wp.plugins) @@
-    push_bool ("experimentalFeatures", wp.experimental_features) @@
-    push_bool ("experimentalCanvasFeatures",
-      wp.experimental_canvas_features) @@
-    push_bool ("scrollBounce", wp.scroll_bounce) @@
-    push_string ("blinkFeatures", wp.blink_features) @@
-    push_string ("disableBlinkFeatures", wp.disable_blink_features) @@
-    (* TODO: default_font *)
-    push_int ("defaultFontSize", wp.default_font_size) @@
-    push_int ("defaultMonospaceFontSize", wp.default_monospace_font_size) @@
-    push_string ("defaultEncoding", wp.default_encoding) @@
-    push_bool ("backgroundThrottling", wp.background_throttling) @@
-    push_bool ("offscreen", wp.offscreen) []
-  in
-  Js.Unsafe.obj (Array.of_list obj)
-
-type browser_window_option = {
-  width : int option;
-  height : int option;
-  x_y : (int * int) option;
-  use_content_size : bool option;
-  center : bool option;
-  min_width : int option;
-  min_height : int option;
-  max_width : int option;
-  max_height : int option;
-  resizable : bool option;
-  movable : bool option;
-  minimizable : bool option;
-  maximizable : bool option;
-  closable : bool option;
-  focusable : bool option;
-  always_on_top : bool option;
-  fullscreen : bool option;
-  fullscreenable : bool option;
-  skip_taskbar : bool option;
-  kioks : bool option;
-  title : string option;
-  show : bool option;
-  frame : bool option;
-  parent : browser_window option;
-  modal : bool option;
-  accept_first_mouse : bool option;
-  disable_auto_hide_cursor : bool option;
-  auto_hide_menu_bar : bool option;
-  enable_larger_than_screen : bool option;
-  background_color : string option;
-  has_shadow : bool option;
-  dark_theme : bool option;
-  transparent : bool option;
-  type_ : windows_t option;
-  title_bar_style : title_bar_style_t option;
-  thick_frame : bool option;
-  web_preferences : web_preferences_t option;
-}
-
-let default_browser_windows_option =
-  { width = None; height = None; x_y = None; use_content_size = None;
-    center = None; min_width = None; min_height = None; max_width = None;
-    max_height = None; resizable = None; movable = None; minimizable = None;
-    maximizable = None; closable = None; focusable = None; always_on_top = None;
-    fullscreen = None; fullscreenable = None; skip_taskbar = None; kioks = None;
-    title = None; show = None; frame = None; parent = None; modal = None;
-    accept_first_mouse = None; disable_auto_hide_cursor = None;
-    auto_hide_menu_bar = None; enable_larger_than_screen = None;
-    background_color = None; has_shadow = None; dark_theme = None;
-    transparent = None; type_ = None; title_bar_style = None;
-    thick_frame = None; web_preferences = None; }
-
-let obj_of_browser_windows_opt bwo =
-  let push (key, translate, elt) acc = match elt with
-    | None -> acc
-    | Some elt -> (key, Js.Unsafe.inject (translate elt)) :: acc
-  in
-  let push_string (key, elt) acc = push (key, Js.string, elt) acc in
-  let push_bool (key, elt) acc = push (key, Js.bool, elt) acc in
-  let push_int (key, elt) acc = push (key, (fun x -> x), elt) acc in
-  let push_x_y elt acc = match elt with
-    | None -> acc
-    | Some (x, y) ->
-      ("x", Js.Unsafe.inject x) :: ("y", Js.Unsafe.inject y) :: acc
-  in
-  let push_windows_t (key, elt) acc =
-    push (key, (fun s -> Js.string (string_of_windows_type s)), elt) acc
-  in
-  let push_title_bar_style (key, elt) acc =
-    push (key, (fun s -> Js.string (string_of_title_bar_style s)), elt) acc
-  in
-  let push_web_pref (key, elt) acc =
-    push (key, (fun s -> obj_of_web_pref s), elt) acc
-  in
-  let push_browser (key, elt) acc =
-    push (key, (fun s -> s#instance), elt) acc
-  in
-  let obj =
-    push_int ("width", bwo.width) @@
-    push_int ("height", bwo.height) @@
-    push_x_y bwo.x_y @@
-    push_bool ("useContentSize", bwo.use_content_size) @@
-    push_bool ("center", bwo.center) @@
-    push_int ("minWidth", bwo.min_width) @@
-    push_int ("minHeight", bwo.min_height) @@
-    push_int ("maxWidth", bwo.max_width) @@
-    push_int ("maxHeight", bwo.max_height) @@
-    push_bool ("resizable", bwo.resizable) @@
-    push_bool ("movable", bwo.movable) @@
-    push_bool ("minimizable", bwo.minimizable) @@
-    push_bool ("maximizable", bwo.maximizable) @@
-    push_bool ("closable", bwo.closable) @@
-    push_bool ("focusable", bwo.focusable) @@
-    push_bool ("alwaysOnTop", bwo.always_on_top) @@
-    push_bool ("fullscreen", bwo.fullscreen) @@
-    push_bool ("fullscreenable", bwo.fullscreenable) @@
-    push_bool ("skipTaskbar", bwo.skip_taskbar) @@
-    push_bool ("kioks", bwo.kioks) @@
-    push_string ("title", bwo.title) @@
-    push_bool ("show", bwo.show) @@
-    push_bool ("frame", bwo.frame) @@
-    push_browser ("parent", bwo.parent) @@
-    push_bool ("modal", bwo.modal) @@
-    push_bool ("acceptFirstMouse", bwo.accept_first_mouse) @@
-    push_bool ("disableAutoHideCursor", bwo.disable_auto_hide_cursor) @@
-    push_bool ("autoHideMenuBar", bwo.auto_hide_menu_bar) @@
-    push_bool ("enableLargerThanScreen", bwo.enable_larger_than_screen) @@
-    push_string ("backgroundColor", bwo.background_color) @@
-    push_bool ("hasShadow", bwo.has_shadow) @@
-    push_bool ("darkTheme", bwo.dark_theme) @@
-    push_bool ("transparent", bwo.transparent) @@
-    push_windows_t ("type", bwo.type_) @@
-    push_title_bar_style ("titleBarStyle", bwo.title_bar_style) @@
-    push_bool ("thickFrame", bwo.thick_frame) @@
-    push_web_pref ("webPreferences", bwo.web_preferences) []
-  in
-  Js.Unsafe.obj (Array.of_list obj)
 
 
 
@@ -707,10 +504,109 @@ let rec make_bw_obj instance : browser_window =
 
 (* STATIC METHODS *)
 
+type web_preferences_t
+
+let make_web_preferences
+    ?dev_tools ?node_integration ?preload ?session ?partition ?zoom_factor
+    ?javascript ?web_security ?allow_displaying_insecure_content
+    ?allow_running_insecure_content ?images ?text_areas_are_resizable
+    ?webgl ?webaudio ?plugins ?experimental_features
+    ?experimental_canvas_features ?scroll_bounce ?blink_features
+    ?disable_blink_features ?default_font_family ?default_font_size
+    ?default_monospace_font_size ?default_encoding ?background_throttling
+    ?offscreen () : web_preferences_t =
+  let open Util.ObjBuilder in
+  let obj =
+    push_bool ("devTools", dev_tools) @@
+    push_bool ("nodeIntegration", node_integration) @@
+    push_string ("preload", preload) @@
+    push_instance ("session", session) @@
+    push_string ("partition", partition) @@
+    push_float ("zoomFactor", zoom_factor) @@
+    push_bool ("javascript", javascript) @@
+    push_bool ("webSecurity", web_security) @@
+    push_bool ("allowDisplayingInsecureContent",
+      allow_displaying_insecure_content) @@
+    push_bool ("allowRunningInsecureContent",
+      allow_running_insecure_content) @@
+    push_bool ("images", images) @@
+    push_bool ("textAreasAreResizable", text_areas_are_resizable) @@
+    push_bool ("webgl", webgl) @@
+    push_bool ("webaudio", webaudio) @@
+    push_bool ("plugins", plugins) @@
+    push_bool ("experimentalFeatures", experimental_features) @@
+    push_bool ("experimentalCanvasFeatures",
+      experimental_canvas_features) @@
+    push_bool ("scrollBounce", scroll_bounce) @@
+    push_string ("blinkFeatures", blink_features) @@
+    push_string ("disableBlinkFeatures", disable_blink_features) @@
+    (* TODO: default_font *)
+    push_int ("defaultFontSize", default_font_size) @@
+    push_int ("defaultMonospaceFontSize", default_monospace_font_size) @@
+    push_string ("defaultEncoding", default_encoding) @@
+    push_bool ("backgroundThrottling", background_throttling) @@
+    push_bool ("offscreen", offscreen) []
+  in
+  Js.Unsafe.obj (Array.of_list obj)
+
+
 module Static = Methods(struct let i = bw_module end)
 
-let make windows_opt : browser_window =
-  let obj = obj_of_browser_windows_opt windows_opt in
+let make
+    ?width ?height ?x_y ?use_content_size ?center ?min_width ?min_height
+    ?max_width ?max_height ?resizable ?movable ?minimizable ?maximizable
+    ?closable ?focusable ?always_on_top ?fullscreen ?fullscreenable
+    ?skip_taskbar ?kioks ?title ?show ?frame ?parent ?modal ?accept_first_mouse
+    ?disable_auto_hide_cursor ?auto_hide_menu_bar ?enable_larger_than_screen
+    ?background_color ?has_shadow ?dark_theme ?transparent ?type_
+    ?title_bar_style ?thick_frame ?web_preferences () : browser_window =
+  let open Util.ObjBuilder in
+  let push_x_y elt acc =
+    match elt with
+    | None -> acc
+    | Some (x, y) -> ("x", int_param x) :: ("y", int_param y) :: acc
+  in
+  let obj =
+    push_int ("width", width) @@
+    push_int ("height", height) @@
+    push_x_y x_y @@
+    push_bool ("useContentSize", use_content_size) @@
+    push_bool ("center", center) @@
+    push_int ("minWidth", min_width) @@
+    push_int ("minHeight", min_height) @@
+    push_int ("maxWidth", max_width) @@
+    push_int ("maxHeight", max_height) @@
+    push_bool ("resizable", resizable) @@
+    push_bool ("movable", movable) @@
+    push_bool ("minimizable", minimizable) @@
+    push_bool ("maximizable", maximizable) @@
+    push_bool ("closable", closable) @@
+    push_bool ("focusable", focusable) @@
+    push_bool ("alwaysOnTop", always_on_top) @@
+    push_bool ("fullscreen", fullscreen) @@
+    push_bool ("fullscreenable", fullscreenable) @@
+    push_bool ("skipTaskbar", skip_taskbar) @@
+    push_bool ("kioks", kioks) @@
+    push_string ("title", title) @@
+    push_bool ("show", show) @@
+    push_bool ("frame", frame) @@
+    push_instance ("parent", parent) @@
+    push_bool ("modal", modal) @@
+    push_bool ("acceptFirstMouse", accept_first_mouse) @@
+    push_bool ("disableAutoHideCursor", disable_auto_hide_cursor) @@
+    push_bool ("autoHideMenuBar", auto_hide_menu_bar) @@
+    push_bool ("enableLargerThanScreen", enable_larger_than_screen) @@
+    push_string ("backgroundColor", background_color) @@
+    push_bool ("hasShadow", has_shadow) @@
+    push_bool ("darkTheme", dark_theme) @@
+    push_bool ("transparent", transparent) @@
+    push_datatype ("type", type_, string_of_windows_type) @@
+    push_datatype
+      ("titleBarStyle", title_bar_style, string_of_title_bar_style) @@
+    push_bool ("thickFrame", thick_frame) @@
+    push ("webPreferences", (fun x -> Js.Unsafe.inject x), web_preferences) []
+  in
+  let obj = Js.Unsafe.obj (Array.of_list obj) in
   let instance = Js.Unsafe.new_obj bw_module [| Js.Unsafe.inject obj |] in
   make_bw_obj instance
 

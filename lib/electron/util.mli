@@ -24,7 +24,7 @@ val int_param : int -> Js.Unsafe.any
 val float_param : float -> Js.Unsafe.any
 val bool_param : bool -> Js.Unsafe.any
 val list_param : 'a list -> Js.Unsafe.any
-val instance_param : 'a -> Js.Unsafe.any
+val instance_param : < instance : instance; ..> -> Js.Unsafe.any
 val optional_param : 'a option -> ('a -> Js.Unsafe.any) -> Js.Unsafe.any array
 val obj_param : (string * Js.Unsafe.any) array -> Js.Unsafe.any
 val callback_param : ('a -> 'b) -> Js.Unsafe.any
@@ -56,27 +56,22 @@ module Methods (I : INSTANCE) : METHODS
 
 module ObjBuilder : sig
 
+  type 'a push_fun =
+    (string * 'a option) ->
+    (string * Js.Unsafe.any) list ->
+    (string * Js.Unsafe.any) list
+
   val push :
     (string * ('a -> Js.Unsafe.any) * 'a option) ->
     (string * Js.Unsafe.any) list ->
     (string * Js.Unsafe.any) list
 
-  val push_string :
-    (string * string option) -> (string * Js.Unsafe.any) list ->
-    (string * Js.Unsafe.any) list
-
-  val push_bool :
-    (string * bool option) -> (string * Js.Unsafe.any) list ->
-    (string * Js.Unsafe.any) list
-
-  val push_instance :
-    (string * < instance : instance; ..> option) ->
-    (string * Js.Unsafe.any) list ->
-    (string * Js.Unsafe.any) list
-
-  val push_callback :
-    (string * ('a -> 'b) option) -> (string * Js.Unsafe.any) list ->
-    (string * Js.Unsafe.any) list
+  val push_string : string push_fun
+  val push_bool : bool push_fun
+  val push_int : int push_fun
+  val push_float : float push_fun
+  val push_instance : < instance : instance; .. > push_fun
+  val push_callback : ('a -> 'b) push_fun
 
   val push_datatype :
     (string * 'a option * ('a -> string)) ->

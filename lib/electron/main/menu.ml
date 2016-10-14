@@ -67,10 +67,7 @@ let make_menu () : menu =
   make_menu_obj instance
 
 let set_application_menu menu : unit =
-  Js.Unsafe.meth_call
-    menu_module
-    "setApplicationMenu"
-    [| Js.Unsafe.inject menu#instance |]
+  MenuStatic.any_unit "setApplicationMenu" menu instance_param
 
 let get_application_menu () =
   match Js.Opt.to_option (MenuStatic.unit_any "getApplicationMenu") with
@@ -89,9 +86,7 @@ let build_from_template template =
   make_menu_obj instance
 
 
-(* MenuItem Creation Methods *)
-
-(* Type used by MenuItem *)
+(* MenuItem Methods *)
 
 type menu_item_type =
   | Normal
@@ -163,108 +158,65 @@ let string_of_role = function
   | Help -> "help"
   | Services -> "services"
 
-type menu_item_options =
-  { click : (unit -> unit -> unit) option; (* TODO *)
-    role : role option;
-    type_ : menu_item_type option;
-    label : string option;
-    sublabel : string option;
-    accelerator : Accelerator.accelerator option;
-    icon : unit option;         (* TODO *)
-    enabled : bool option;
-    visible : bool option;
-    checked : bool option;
-    submenu : menu option;
-    id : string option;
-    position : string option }
-
-let default_menu_item_options =
-  { click = None; role = None; type_ = None; label = None;
-    sublabel = None; accelerator = None; icon = None; enabled = None;
-    visible = None; checked = None; submenu = None; id = None; position = None }
-
-let obj_of_menu_item_options mi =
-  let push (key, translate, elt) acc = match elt with
-    | None -> acc
-    | Some elt -> (key, translate elt) :: acc
-  in
-  let push_string (key, elt) acc = push (key, string_param, elt) acc in
-  let push_bool (key, elt) acc = push (key, bool_param, elt) acc in
-  let push_menu (key, elt) acc =
-    push (key, (fun s -> Js.Unsafe.inject s#instance), elt) acc
-  in
-  let push_fun (key, elt) acc = push (key, callback_param, elt) acc in
-  let push_role (key, elt) acc =
-    push (key, (fun s -> string_param (string_of_role s)), elt) acc
-  in
-  let push_type (key, elt) acc =
-    push (key, (fun s -> string_param (string_of_menu_item_type s)), elt) acc
-  in
+let obj_of_menu_item_options
+    ?click ?role ?type_ ?label ?sublabel ?accelerator
+    ?icon ?enabled ?visible ?checked ?submenu ?id ?position () =
+  let open ObjBuilder in
   let obj =
-    push_fun ("click", mi.click) @@
-    push_role ("role", mi.role) @@
-    push_type ("type", mi.type_) @@
-    push_string ("label", mi.label) @@
-    push_string ("sublabel", mi.sublabel) @@
-    push
-      ("accelerator",
-       (fun s -> string_param (Accelerator.make_accelerator s)),
-       mi.accelerator) @@
-    (* push_unit ("icon", mi.icon) @@         (\* TODO *\) *)
-    push_bool ("enabled", mi.enabled) @@
-    push_bool ("visible", mi.visible) @@
-    push_bool ("checked", mi.checked) @@
-    push_menu ("submenu", mi.submenu) @@
-    push_string ("id", mi.id) @@
-    push_string ("position", mi.position) []
+    push_callback ("click", click) @@
+    push_datatype ("role", role, string_of_role) @@
+    push_datatype ("type", type_, string_of_menu_item_type) @@
+    push_string ("label", label) @@
+    push_string ("sublabel", sublabel) @@
+    push_datatype ("accelerator", accelerator, Accelerator.make_accelerator) @@
+    (* push_unit ("icon", icon) @@         (\* TODO *\) *)
+    push_bool ("enabled", enabled) @@
+    push_bool ("visible", visible) @@
+    push_bool ("checked", checked) @@
+    push_instance ("submenu", submenu) @@
+    push_string ("id", id) @@
+    push_string ("position", position) []
   in
   Js.Unsafe.obj (Array.of_list obj)
 
-let make_menu_item opt : menu_item =
-  let param = [| Js.Unsafe.inject (obj_of_menu_item_options opt) |] in
+let make_menu_item
+    ?click ?role ?type_ ?label ?sublabel ?accelerator
+    ?icon ?enabled ?visible ?checked ?submenu ?id ?position () : menu_item =
+  let obj =
+    obj_of_menu_item_options ?click ?role ?type_ ?label ?sublabel ?accelerator
+      ?icon ?enabled ?visible ?checked ?submenu ?id ?position ()
+  in
+  let param = [| Js.Unsafe.inject obj |] in
   let instance = Js.Unsafe.new_obj menu_item_module param in
   make_menu_item_obj instance
 
-let separator =
-  make_menu_item { default_menu_item_options with type_ = Some Separator }
+
+(* Prebuilt MenuItem *)
+
+let separator = make_menu_item ~type_:Separator ()
 
 let basic_apple_menu_item () =
   let open Accelerator in
   let name = App.app#get_name () in
   let submenu =
     build_from_template
-      [ make_menu_item
-          { default_menu_item_options with
-            label = Some (Format.sprintf "About %s" name);
-            role = Some About };
+      [ make_menu_item ~label:(Format.sprintf "About %s" name) ~role:About ();
+        separator;
+        make_menu_item ~label:"Services" ~role:Services ();
         separator;
         make_menu_item
-          { default_menu_item_options with
-            label = Some "Services";
-            role = Some Services };
+          ~label:(Format.sprintf "Hide %s" name)
+          ~accelerator:([Command], [Letter 'H'])
+          ~role:Hide ();
+        make_menu_item
+          ~label:"Hide Others"
+          ~accelerator:([Command; Shift], [Letter 'H'])
+          ~role:Hideothers ();
+        make_menu_item ~label:"Show All" ~role:Unhide ();
         separator;
         make_menu_item
-          { default_menu_item_options with
-            label = Some (Format.sprintf "Hide %s" name);
-            accelerator = Some ([Command], [Letter 'H']);
-            role = Some Hide };
-        make_menu_item
-          { default_menu_item_options with
-            label = Some "Hide Others";
-            accelerator = Some ([Command; Shift], [Letter 'H']);
-            role = Some Hideothers };
-        make_menu_item
-          { default_menu_item_options with
-            label = Some "Show All";
-            role = Some Unhide };
-        separator;
-        make_menu_item
-          { default_menu_item_options with
-            label = Some "Quit";
-            accelerator = Some ([Command], [Letter 'Q']);
-            click = Some (fun _ _ -> App.app#quit ()) }; ]
+          ~label:"Quit" ~accelerator:([Command], [Letter 'Q'])
+          ~click:(fun _ _ -> App.app#quit ()) ()
+      ]
   in
-  make_menu_item
-    { default_menu_item_options with
-      label = Some name;
-      submenu = Some submenu }
+  make_menu_item ~label:name ~submenu ()
